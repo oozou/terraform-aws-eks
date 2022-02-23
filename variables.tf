@@ -8,7 +8,7 @@ variable "environment" {
 }
 
 variable "tags" {
-  description = "Tag for a resource that create by this component"
+  description = "Tag for a resource taht create by this component"
   type        = map(string)
   default     = {}
 }
@@ -56,4 +56,34 @@ variable "node_groups" {
     max_unavailable : 1,
     instance_types : ["t3.medium"]
   }]
+}
+
+variable "admin_user_arns" {
+  description = "Principals to trust assume role policy and add to eks admin group for assume role"
+  default     = []
+}
+
+variable "aws_bootstrap_account" {
+  description = "AWS Credentials to access AWS by bootstrap module"
+  type = object({
+    region     = string,
+    access_key = string,
+    secret_key = string
+  })
+  sensitive = true
+}
+
+variable "admin_role_arn" {
+  description = "admin role arn for grant permission to aws-auth"
+  type        = string
+}
+
+variable "dev_role_arn" {
+  description = "dev role arn for grant permission to aws-auth"
+  type        = string
+}
+
+variable "qa_role_arn" {
+  description = "qa role group arn for grant permission to aws-auth"
+  type        = string
 }
