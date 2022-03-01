@@ -20,7 +20,7 @@ data "template_file" "aws_auth" {
     node_group_role_arn = var.node_group_role_arns[0]
     admin_role_arn      = var.admin_role_arn
     dev_role_arn        = var.dev_role_arn
-    qa_role_arn         = var.qa_role_arn
+    readonly_role_arn   = var.readonly_role_arn
   }
 }
 
@@ -39,10 +39,7 @@ data "template_file" "cloud_init" {
   vars = {
     startup_script   = base64encode(data.template_file.startup.rendered)
     aws_auth         = base64encode(data.template_file.aws_auth.rendered)
-    dev_role         = filebase64("${path.module}/scripts/eks/dev_role.yml")
-    dev_role_binding = filebase64("${path.module}/scripts/eks/dev_role_binding.yml")
-    qa_role          = filebase64("${path.module}/scripts/eks/qa_role.yml")
-    qa_role_binding  = filebase64("${path.module}/scripts/eks/qa_role_binding.yml")
+    # dev_role         = filebase64("${path.module}/scripts/eks/dev_role.yml")
   }
 }
 

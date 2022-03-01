@@ -83,7 +83,7 @@ variable "dev_role_arn" {
   type        = string
 }
 
-variable "qa_role_arn" {
-  description = "qa role group arn for grant permission to aws-auth"
+variable "readonly_role_arn" {
+  description = "readonly role group arn for grant permission to aws-auth"
   type        = string
 }

@@ -5,7 +5,7 @@ module "bootstrap" {
   aws_account    = var.aws_bootstrap_account
   admin_role_arn = var.admin_role_arn
   dev_role_arn   = var.dev_role_arn
-  qa_role_arn    = var.qa_role_arn
+  readonly_role_arn    = var.readonly_role_arn
   tags = merge(
     {
       "Name" = "${var.name}-${var.environment}-bootstrap"

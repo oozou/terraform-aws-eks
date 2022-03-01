@@ -1,9 +1,0 @@
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  namespace: kube-system
-  name: eks-qa-role #not to be confused with the AWS IAM role
-rules:
-- apiGroups: ["*"]
-  resources: ["*"]
-  verbs: ["*"]

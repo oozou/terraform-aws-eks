@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,8 +11,7 @@ data:
       - system:nodes
       rolearn: ${node_group_role_arn}
       username: system:node:{{EC2PrivateDNSName}}
-    - groups:
-      - system:masters
+    - groups: []
       rolearn: ${admin_role_arn}
       username: eks-admin
     - groups: []
@@ -19,4 +19,43 @@ data:
       username: eks-developer
     - groups: []
       rolearn: ${qa_role_arn}
-      username: eks-qa
+      username: eks-readonly
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:eks-admin-role-binding
+subjects:
+  - kind: User
+    name: eks-admin
+    apiGroup: "rbac.authorization.k8s.io"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:eks-developer-role-binding
+subjects:
+  - kind: User
+    name: eks-developer
+    apiGroup: "rbac.authorization.k8s.io"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:eks-readonly-role-binding
+subjects:
+  - kind: User
+    name: eks-readonly
+    apiGroup: "rbac.authorization.k8s.io"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view

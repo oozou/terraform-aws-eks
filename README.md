@@ -6,7 +6,7 @@ Terraform module with create EKS resources on AWS.
 
 ```terraform
 module "eks" {
-  source          = "git::ssh://git@github.com:oozou/terraform-aws-eks.git"
+  source          = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
   name            = "zeus-cluster"
   environment     = "test"
   vpc_id          = "vpc-xxx"
