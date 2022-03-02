@@ -14,8 +14,8 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-data "template_file" "aws_auth" {
-  template = file("${path.module}/scripts/eks/aws_auth.yml")
+data "template_file" "eks_manifest" {
+  template = file("${path.module}/templates/eks-manifest-file.yml")
   vars = {
     node_group_role_arn = var.node_group_role_arns[0]
     admin_role_arn      = var.admin_role_arn
@@ -24,38 +24,13 @@ data "template_file" "aws_auth" {
   }
 }
 
-data "template_file" "startup" {
-  template = file("${path.module}/scripts/startup.sh")
+data "template_file" "user_data" {
+  template = file("${path.module}/templates/user_data.sh")
   vars = {
-    aws_secret_access_key = var.aws_account.access_key
-    aws_access_key_id     = var.aws_account.secret_key
+    aws_access_key_id     = var.aws_account.access_key
+    aws_secret_access_key = var.aws_account.secret_key
     region                = var.aws_account.region
     cluster_name          = var.cluster_name
+    eks_manifest_file     = data.template_file.eks_manifest.rendered
   }
 }
-
-data "template_file" "cloud_init" {
-  template = file("${path.module}/scripts/cloud_init.yml")
-  vars = {
-    startup_script   = base64encode(data.template_file.startup.rendered)
-    aws_auth         = base64encode(data.template_file.aws_auth.rendered)
-    # dev_role         = filebase64("${path.module}/scripts/eks/dev_role.yml")
-  }
-}
-
-data "template_cloudinit_config" "userdata" {
-  gzip          = false
-  base64_encode = false
-
-  part {
-    filename     = "init.cfg"
-    content_type = "text/cloud-config"
-    content      = data.template_file.cloud_init.rendered
-  }
-
-  part {
-    content_type = "text/x-shellscript"
-    content      = data.template_file.startup.rendered
-  }
-}
-

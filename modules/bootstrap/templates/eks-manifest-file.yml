@@ -18,7 +18,7 @@ data:
       rolearn: ${dev_role_arn}
       username: eks-developer
     - groups: []
-      rolearn: ${qa_role_arn}
+      rolearn: ${readonly_role_arn}
       username: eks-readonly
 ---
 apiVersion: rbac.authorization.k8s.io/v1

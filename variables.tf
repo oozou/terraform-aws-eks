@@ -63,7 +63,7 @@ variable "admin_user_arns" {
   default     = []
 }
 
-variable "aws_bootstrap_account" {
+variable "aws_account" {
   description = "AWS Credentials to access AWS by bootstrap module"
   type = object({
     region     = string,
@@ -87,3 +87,10 @@ variable "readonly_role_arn" {
   description = "readonly role group arn for grant permission to aws-auth"
   type        = string
 }
+
+variable "additional_allow_cidr" {
+  description = "readonly role group arn for grant permission to aws-auth"
+  type        = list(string)
+  default     = []
+}
+

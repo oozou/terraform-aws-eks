@@ -1,8 +1,0 @@
-#cloud-config
-write_files:
-    - path: /etc/scripts/startup.sh
-      encoding: "b64"
-      content: "${startup_script}"
-    - path: /etc/scripts/aws-auth.yml
-      encoding: "b64"
-      content: "${aws_auth}"
