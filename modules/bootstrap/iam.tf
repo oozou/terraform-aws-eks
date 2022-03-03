@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
   }
 }
 
-data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
+data "aws_iam_policy_document" "aws_lb_controller_policy" {
   statement {
     actions = [
       "iam:CreateServiceLinkedRole",
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "elasticloadbalancing:DescribeTags"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
   }
   statement {
     actions = [
@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "shield:DeleteProtection"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
   }
   statement {
     actions = [
@@ -79,30 +79,30 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "ec2:RevokeSecurityGroupIngress"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
   }
   statement {
     actions = [
       "ec2:CreateSecurityGroup"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
   }
   statement {
     actions = [
       "ec2:CreateTags"
     ]
     effect    = "Allow"
-    resources = "arn:aws:ec2:*:*:security-group/*"
+    resources = ["arn:aws:ec2:*:*:security-group/*"]
     condition {
       test     = "StringEquals"
       variable = "ec2:CreateAction"
-      values   = "CreateSecurityGroup"
+      values   = ["CreateSecurityGroup"]
     }
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values   = "false"
+      values   = ["false"]
     }
   }
   statement {
@@ -111,16 +111,16 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "ec2:DeleteTags"
     ]
     effect    = "Allow"
-    resources = "arn:aws:ec2:*:*:security-group/*"
+    resources = ["arn:aws:ec2:*:*:security-group/*"]
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values   = "true"
+      values   = ["true"]
     }
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values   = "false"
+      values   = ["false"]
     }
   }
   statement {
@@ -130,11 +130,11 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "ec2:DeleteSecurityGroup"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values   = "false"
+      values   = ["false"]
     }
   }
   statement {
@@ -143,11 +143,11 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "elasticloadbalancing:CreateTargetGroup"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values   = "false"
+      values   = ["false"]
     }
   }
   statement {
@@ -158,7 +158,7 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "elasticloadbalancing:DeleteRule"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
   }
   statement {
     actions = [
@@ -174,12 +174,12 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
     condition {
       test     = "Null"
       variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
-      values   = "true"
+      values   = ["true"]
     }
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values   = "false"
+      values   = ["false"]
     }
   }
   statement {
@@ -207,11 +207,11 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "elasticloadbalancing:DeleteTargetGroup"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
     condition {
       test     = "Null"
       variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
-      values   = "false"
+      values   = ["false"]
     }
   }
   statement {
@@ -220,7 +220,7 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "elasticloadbalancing:DeregisterTargets"
     ]
     effect    = "Allow"
-    resources = "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+    resources = ["arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"]
   }
   statement {
     actions = [
@@ -231,7 +231,7 @@ data "aws_iam_policy_document" "aws_lb_controller_assume_role_policy" {
       "elasticloadbalancing:ModifyRule"
     ]
     effect    = "Allow"
-    resources = "*"
+    resources = ["*"]
   }
 }
 
@@ -240,7 +240,7 @@ resource "aws_iam_policy" "aws_lb_controller" {
   name        = "aws-lb-controller-policy"
   description = "aws lb controller require policy"
 
-  policy = data.aws_iam_policy_document.aws_lb_controller_assume_role_policy.json
+  policy = data.aws_iam_policy_document.aws_lb_controller_policy.json
 }
 
 resource "aws_iam_role" "aws_lb_controller" {
