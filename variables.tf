@@ -1,3 +1,8 @@
+variable "prefix" {
+  description = "The prefix name of customer to be displayed in AWS console and resource"
+  type        = string
+}
+
 variable "name" {
   description = "The Name of the EKS cluster"
 }
@@ -49,7 +54,7 @@ variable "node_groups" {
 
   }))
   default = [{
-    name : "default-node-group",
+    name : "default",
     desired_size : 1,
     max_size : 1,
     min_size : 1,
@@ -94,3 +99,12 @@ variable "additional_allow_cidr" {
   default     = []
 }
 
+variable "config_aws_auth" {
+  description = "require if create lb controler"
+  default     = true
+}
+
+variable "config_aws_lb_controller" {
+  description = "require if create lb controler"
+  default     = true
+}

@@ -237,7 +237,7 @@ data "aws_iam_policy_document" "aws_lb_controller_policy" {
 
 resource "aws_iam_policy" "aws_lb_controller" {
   count       = var.config_aws_lb_controller ? 1 : 0
-  name        = "aws-lb-controller-policy"
+  name        = "${var.prefix}-aws-lb-controller-allow-lb-policy"
   description = "aws lb controller require policy"
 
   policy = data.aws_iam_policy_document.aws_lb_controller_policy.json
@@ -246,7 +246,13 @@ resource "aws_iam_policy" "aws_lb_controller" {
 resource "aws_iam_role" "aws_lb_controller" {
   count              = var.config_aws_lb_controller ? 1 : 0
   assume_role_policy = data.aws_iam_policy_document.aws_lb_controller_assume_role_policy.json
-  name               = "aws-load-balancer-controller"
+  name               = "${var.prefix}-aws-lb-controller-role"
+  tags = merge(
+    {
+      "Name" = "${var.prefix}-aws-lb-controller-role"
+    },
+    var.tags,
+  )
 }
 
 resource "aws_iam_role_policy_attachment" "aws_lb_controller" {

@@ -1,3 +1,8 @@
+variable "prefix" {
+  description = "The prefix name of customer to be displayed in AWS console and resource"
+  type        = string
+}
+
 variable "subnet_id" {
   description = "IDs of subnets for create instance"
 }

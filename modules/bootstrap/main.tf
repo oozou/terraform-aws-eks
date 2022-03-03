@@ -1,18 +1,21 @@
 resource "aws_instance" "this" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  subnet_id     = var.subnet_id
-  tags = {
-    Name = "bootstrap"
-  }
+  ami                                  = data.aws_ami.ubuntu.id
+  instance_type                        = "t2.micro"
+  subnet_id                            = var.subnet_id
   instance_initiated_shutdown_behavior = "terminate"
   user_data                            = data.template_file.user_data.rendered
-  vpc_security_group_ids               = [aws_security_group.allow_outbound.id]
+  vpc_security_group_ids               = [aws_security_group.ec2_bootstrap.id]
+  tags = merge(
+    {
+      "Name" = "${var.prefix}-bootstrap"
+    },
+    var.tags,
+  )
 }
 
-resource "aws_security_group" "allow_outbound" {
-  name        = "allow_outbound"
-  description = "Allow outbound traffic"
+resource "aws_security_group" "ec2_bootstrap" {
+  name        = "${var.prefix}-ec2-bootstrap-sg"
+  description = "ec2 bootstrap security group for allow egress"
   vpc_id      = var.vpc_id
 
   egress {
@@ -23,7 +26,10 @@ resource "aws_security_group" "allow_outbound" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = {
-    Name = "allow_outbound"
-  }
+  tags = merge(
+    {
+      "Name" = "${var.prefix}-ec2-bootstrap-sg"
+    },
+    var.tags,
+  )
 }

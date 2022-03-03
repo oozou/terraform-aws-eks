@@ -1,7 +1,7 @@
 resource "aws_eks_node_group" "this" {
   count           = length(var.node_groups)
   cluster_name    = aws_eks_cluster.this.name
-  node_group_name = var.node_groups[count.index].name
+  node_group_name = "${local.prefix}-${var.node_groups[count.index].name}-nodegroup"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.subnets_ids
   instance_types  = var.node_groups[count.index].instance_types
@@ -17,10 +17,9 @@ resource "aws_eks_node_group" "this" {
   }
   tags = merge(
     {
-      "Name" = "${var.name}-${var.environment}-${var.node_groups[count.index].name}-nodegroup"
+      "Name" = "${local.prefix}-${var.node_groups[count.index].name}-nodegroup"
     },
-    var.tags,
-    local.default_tags
+    local.tags
   )
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling

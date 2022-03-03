@@ -12,14 +12,13 @@ data "aws_iam_policy_document" "cluster_role" {
 }
 
 resource "aws_iam_role" "cluster_role" {
-  name               = "eks-cluster-role"
+  name               = "${local.prefix}-cluster-role"
   assume_role_policy = data.aws_iam_policy_document.cluster_role.json
   tags = merge(
     {
-      "Name" = "${var.name}-${var.environment}-cluster-role"
+      "Name" = "${local.prefix}-cluster-role"
     },
-    var.tags,
-    local.default_tags
+    local.tags
   )
 }
 
@@ -48,14 +47,13 @@ data "aws_iam_policy_document" "node_group_role" {
 }
 
 resource "aws_iam_role" "node_group_role" {
-  name               = "${var.name}-${var.environment}-cluster-node-group-role"
+  name               = "${local.prefix}-node-group-role"
   assume_role_policy = data.aws_iam_policy_document.node_group_role.json
   tags = merge(
     {
-      "Name" = "${var.name}-${var.environment}-cluster-node-group-role"
+      "Name" = "${local.prefix}-node-group-role"
     },
-    var.tags,
-    local.default_tags
+    local.tags
   )
 }
 
@@ -78,5 +76,11 @@ resource "aws_iam_openid_connect_provider" "this" {
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.this.identity[0].oidc[0].issuer
+  tags = merge(
+    {
+      "Name" = "${local.prefix}-eks-provider"
+    },
+    local.tags
+  )
 }
 
