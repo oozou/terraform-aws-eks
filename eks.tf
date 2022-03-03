@@ -23,4 +23,3 @@ resource "aws_eks_cluster" "this" {
     aws_iam_role_policy_attachment.AmazonEKSVPCResourceController,
   ]
 }
-
