@@ -16,7 +16,7 @@ resource "aws_security_group_rule" "eks_ingress_allow_tls" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = [data.aws_vpc.this.cidr_block]
+  cidr_blocks       = concat([data.aws_vpc.this.cidr_block], var.additional_allow_cidr)
   security_group_id = aws_security_group.eks_allow_tls.id
 }
 
