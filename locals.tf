@@ -1,5 +1,5 @@
 locals {
-  prefix = "${var.name}-${var.environment}-${var.name}"
+  prefix = "${var.prefix}-${var.environment}-${var.name}"
   tags = merge(
     {
       "Environment" = var.environment,
