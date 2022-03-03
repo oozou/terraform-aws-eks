@@ -9,6 +9,6 @@ output "kubeconfig-certificate-authority-data" {
 }
 
 output "cluster_name" {
-  value       = aws_eks_cluster.this.name
+  value       = aws_eks_cluster.this.id
   description = "Name of the cluster"
 }
