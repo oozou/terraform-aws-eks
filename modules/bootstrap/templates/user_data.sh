@@ -41,7 +41,7 @@ sudo kubectl apply -f /opt/scripts/aws-lb-controller-sa.yml
 
 sudo helm repo add eks https://aws.github.io/eks-charts
 sudo helm repo update
-sudo helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+sudo helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
   --set clusterName=test-environment \
   --set serviceAccount.create=false \

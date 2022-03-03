@@ -55,3 +55,7 @@ variable "config_aws_lb_controller" {
   description = "require if create lb controler"
   default     = true
 }
+
+variable "vpc_id" {
+  description = "vpc id for create secgroup"
+}
