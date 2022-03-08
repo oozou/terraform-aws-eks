@@ -25,6 +25,7 @@ sudo mkdir -p /opt/scripts
 aws configure set aws_access_key_id ${aws_access_key_id}
 aws configure set aws_secret_access_key ${aws_secret_access_key}
 aws eks update-kubeconfig --region ${region} --name ${cluster_name}
+kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
 
 %{ if config_aws_auth }
 sudo touch /opt/scripts/eks-manifest-file.yml
