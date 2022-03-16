@@ -2,6 +2,8 @@
 
 Terraform module with create EKS resources on AWS.
 
+![Design diagram](docs/design.png "Design diagram")
+
 ## Usage
 
 ```terraform
