@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "this" {
   version = var.eks_version
   tags = merge(
     {
-      "Name" = "${local.prefix}-${var.name}-cluster"
+      "Name" = "${local.prefix}-cluster"
     },
     local.tags
   )
