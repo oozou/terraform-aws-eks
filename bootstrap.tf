@@ -11,6 +11,9 @@ module "bootstrap" {
   vpc_id                   = var.vpc_id
   config_aws_auth          = var.config_aws_auth
   config_aws_lb_controller = var.config_aws_lb_controller
+  is_config_argo_cd        = var.is_config_argo_cd
+  acm_arn                  = var.acm_arn
+  argo_cd_domain           = var.argo_cd_domain
   prefix                   = local.prefix
   tags                     = local.tags
 }

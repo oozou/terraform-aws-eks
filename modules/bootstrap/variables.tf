@@ -64,11 +64,11 @@ variable "config_aws_lb_controller" {
 variable "vpc_id" {
   description = "vpc id for create secgroup"
 }
+
 variable "is_config_argo_cd" {
   description = ""
   default     = false
 }
-
 
 variable "acm_arn" {
   description = "if not specify aws will auto discovery on acm with same domain"
