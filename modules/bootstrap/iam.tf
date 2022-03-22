@@ -146,7 +146,7 @@ data "aws_iam_policy_document" "aws_lb_controller_policy" {
     resources = ["*"]
     condition {
       test     = "Null"
-      variable = "aws:ResourceTag/elbv2.k8s.aws/cluster"
+      variable = "aws:RequestTag/elbv2.k8s.aws/cluster"
       values   = ["false"]
     }
   }
