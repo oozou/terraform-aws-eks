@@ -236,7 +236,7 @@ data "aws_iam_policy_document" "aws_lb_controller_policy" {
 }
 
 resource "aws_iam_policy" "aws_lb_controller" {
-  count       = var.config_aws_lb_controller ? 1 : 0
+  count       = var.is_config_aws_lb_controller ? 1 : 0
   name        = "${var.prefix}-aws-lb-controller-allow-lb-policy"
   description = "aws lb controller require policy"
 
@@ -244,7 +244,7 @@ resource "aws_iam_policy" "aws_lb_controller" {
 }
 
 resource "aws_iam_role" "aws_lb_controller" {
-  count              = var.config_aws_lb_controller ? 1 : 0
+  count              = var.is_config_aws_lb_controller ? 1 : 0
   assume_role_policy = data.aws_iam_policy_document.aws_lb_controller_assume_role_policy.json
   name               = "${var.prefix}-aws-lb-controller-role"
   tags = merge(
@@ -256,7 +256,7 @@ resource "aws_iam_role" "aws_lb_controller" {
 }
 
 resource "aws_iam_role_policy_attachment" "aws_lb_controller" {
-  count      = var.config_aws_lb_controller ? 1 : 0
+  count      = var.is_config_aws_lb_controller ? 1 : 0
   role       = aws_iam_role.aws_lb_controller[0].name
   policy_arn = aws_iam_policy.aws_lb_controller[0].arn
 }

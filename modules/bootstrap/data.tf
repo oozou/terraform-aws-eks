@@ -27,7 +27,7 @@ data "template_file" "eks_manifest" {
 data "template_file" "aws_lb_controller_sa" {
   template = file("${path.module}/templates/aws-lb-controller-sa.yml")
   vars = {
-    aws_lb_controller_role_arn = var.config_aws_lb_controller ? aws_iam_role.aws_lb_controller[0].arn : ""
+    aws_lb_controller_role_arn = var.is_config_aws_lb_controller ? aws_iam_role.aws_lb_controller[0].arn : ""
   }
 }
 
@@ -49,8 +49,8 @@ data "template_file" "user_data" {
     cluster_name             = var.cluster_name
     eks_manifest_file        = data.template_file.eks_manifest.rendered
     aws_lb_controller_sa     = data.template_file.aws_lb_controller_sa.rendered
-    config_aws_auth          = var.config_aws_auth
-    config_aws_lb_controller = var.config_aws_lb_controller
+    is_config_aws_auth          = var.is_config_aws_auth
+    is_config_aws_lb_controller = var.is_config_aws_lb_controller
     is_config_argo_cd        = var.is_config_argo_cd
     argo_cd_values           = data.template_file.argo_cd_values.rendered
   }

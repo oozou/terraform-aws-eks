@@ -9,8 +9,8 @@ module "bootstrap" {
   node_group_role_arn      = aws_iam_role.node_group_role.arn
   oidc_arn                 = aws_iam_openid_connect_provider.this.arn
   vpc_id                   = var.vpc_id
-  config_aws_auth          = var.config_aws_auth
-  config_aws_lb_controller = var.config_aws_lb_controller
+  is_config_aws_auth          = var.is_config_aws_auth
+  is_config_aws_lb_controller = var.is_config_aws_lb_controller
   is_config_argo_cd        = var.is_config_argo_cd
   acm_arn                  = var.acm_arn
   argo_cd_domain           = var.argo_cd_domain

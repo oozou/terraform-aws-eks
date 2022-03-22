@@ -99,12 +99,12 @@ variable "additional_allow_cidr" {
   default     = []
 }
 
-variable "config_aws_auth" {
+variable "is_config_aws_auth" {
   description = "require if create lb controler"
   default     = true
 }
 
-variable "config_aws_lb_controller" {
+variable "is_config_aws_lb_controller" {
   description = "require if create lb controler"
   default     = true
 }

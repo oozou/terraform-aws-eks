@@ -46,14 +46,14 @@ aws eks update-kubeconfig --region ${region} --name ${cluster_name}
 sudo kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
 sudo kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 
-%{ if config_aws_auth }
+%{ if is_config_aws_auth }
 sudo touch /opt/scripts/eks-manifest-file.yml
 sudo chmod 777 /opt/scripts/eks-manifest-file.yml
 sudo echo '${eks_manifest_file}' > /opt/scripts/eks-manifest-file.yml
 sudo kubectl apply -f /opt/scripts/eks-manifest-file.yml
 %{ endif }
 
-%{ if config_aws_lb_controller }
+%{ if is_config_aws_lb_controller }
 sudo touch /opt/scripts/aws-lb-controller-sa.yml
 sudo chmod 777 /opt/scripts/aws-lb-controller-sa.yml
 sudo echo '${aws_lb_controller_sa}' > /opt/scripts/aws-lb-controller-sa.yml
