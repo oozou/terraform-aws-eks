@@ -11,6 +11,11 @@ resource "aws_instance" "this" {
     },
     var.tags,
   )
+  lifecycle {
+    ignore_changes = [
+      instance_state
+    ]
+  }
 }
 
 resource "aws_security_group" "ec2_bootstrap" {
