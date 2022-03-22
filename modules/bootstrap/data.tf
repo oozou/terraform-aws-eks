@@ -31,6 +31,15 @@ data "template_file" "aws_lb_controller_sa" {
   }
 }
 
+data "template_file" "argo_cd_values" {
+  template = file("${path.module}/templates/argo-cd-values.yml")
+  vars = {
+    acm_arn        = var.acm_arn
+    argo_cd_domain = var.argo_cd_domain
+  }
+}
+
+
 data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
   vars = {
@@ -42,5 +51,7 @@ data "template_file" "user_data" {
     aws_lb_controller_sa     = data.template_file.aws_lb_controller_sa.rendered
     config_aws_auth          = var.config_aws_auth
     config_aws_lb_controller = var.config_aws_lb_controller
+    is_config_argo_cd        = var.is_config_argo_cd
+    argo_cd_values           = data.template_file.argo_cd_values.rendered
   }
 }

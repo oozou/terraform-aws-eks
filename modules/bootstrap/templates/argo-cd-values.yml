@@ -1,0 +1,24 @@
+## Argo CD configuration
+## Ref: https://github.com/argoproj/argo-cd
+##
+## Server
+server:
+  # -- Argo CD server name
+  extraArgs:
+    - --insecure
+  name: server
+  ingress:
+    # -- Enable an ingress resource for the Argo CD server
+    enabled: true
+    # -- Additional ingress annotations
+    annotations:
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/certificate-arn: ${acm_arn}
+      alb.ingress.kubernetes.io/scheme: 'internet-facing'
+      alb.ingress.kubernetes.io/target-type: 'ip'
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/ssl-redirect: '443'
+    hosts:
+      - ${argo_cd_domain}
+    https: false
