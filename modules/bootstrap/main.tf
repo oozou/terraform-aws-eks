@@ -2,7 +2,7 @@ resource "aws_instance" "this" {
   ami                                  = data.aws_ami.ubuntu.id
   instance_type                        = "t2.micro"
   subnet_id                            = var.subnet_id
-  instance_initiated_shutdown_behavior = "terminate"
+  instance_initiated_shutdown_behavior = "stop"
   user_data                            = data.template_file.user_data.rendered
   vpc_security_group_ids               = [aws_security_group.ec2_bootstrap.id]
   tags = merge(
