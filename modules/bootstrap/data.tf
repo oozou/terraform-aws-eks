@@ -43,16 +43,16 @@ data "template_file" "argo_cd_values" {
 data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
   vars = {
-    aws_access_key_id        = var.aws_account.access_key
-    aws_secret_access_key    = var.aws_account.secret_key
-    region                   = var.aws_account.region
-    cluster_name             = var.cluster_name
-    eks_manifest_file        = data.template_file.eks_manifest.rendered
-    aws_lb_controller_sa     = data.template_file.aws_lb_controller_sa.rendered
+    aws_access_key_id           = var.aws_account.access_key
+    aws_secret_access_key       = var.aws_account.secret_key
+    region                      = var.aws_account.region
+    cluster_name                = var.cluster_name
+    eks_manifest_file           = data.template_file.eks_manifest.rendered
+    aws_lb_controller_sa        = data.template_file.aws_lb_controller_sa.rendered
     is_config_aws_auth          = var.is_config_aws_auth
     is_config_aws_lb_controller = var.is_config_aws_lb_controller
-    is_config_argo_cd        = var.is_config_argo_cd
-    argo_cd_values           = data.template_file.argo_cd_values.rendered
-    argo_cd_domain = var.argo_cd_domain
+    is_config_argo_cd           = var.is_config_argo_cd
+    argo_cd_values              = data.template_file.argo_cd_values.rendered
+    argo_cd_domain              = var.argo_cd_domain
   }
 }
