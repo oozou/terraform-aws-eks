@@ -79,6 +79,8 @@ sudo helm upgrade --install argo-cd argo/argo-cd -f /opt/scripts/argo-cd-values.
 sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 sudo chmod +x /usr/local/bin/argocd
 argocd login argo-cd.aws.waruwat.work --username admin --password admin123
+sudo argocd account update-password --account dev --new-password admin123 --current-password admin123
+sudo argocd account update-password --account devops --new-password admin123 --current-password admin123
 
 %{ endif }
 
