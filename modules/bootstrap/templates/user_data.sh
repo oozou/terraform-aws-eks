@@ -76,11 +76,6 @@ sudo echo '${argo_cd_values}' > /opt/scripts/argo-cd-values.yml
 sudo helm repo add argo https://argoproj.github.io/argo-helm
 sudo helm install argo-cd argo/argo-cd -f /opt/scripts/argo-cd-values.yml  --version 4.2.1
 
-sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo chmod +x /usr/local/bin/argocd
-argocd login ${argo_cd_domain} --username admin --password admin123
-argocd account update-password --account dev --new-password admin123 --current-password admin123
-argocd account update-password --account devops --new-password admin123 --current-password admin123
 
 %{ endif }
 
