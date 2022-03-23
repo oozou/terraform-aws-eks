@@ -77,6 +77,8 @@ sudo helm repo add argo https://argoproj.github.io/argo-helm
 sudo helm upgrade --install argo-cd argo/argo-cd -f /opt/scripts/argo-cd-values.yml  --version 4.2.1
 
 sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo chmod +x /usr/local/bin/argocd
+argocd login argo-cd.aws.waruwat.work --username admin --password admin123
 
 %{ endif }
 
