@@ -53,5 +53,6 @@ data "template_file" "user_data" {
     is_config_aws_lb_controller = var.is_config_aws_lb_controller
     is_config_argo_cd        = var.is_config_argo_cd
     argo_cd_values           = data.template_file.argo_cd_values.rendered
+    argo_cd_domain = var.argo_cd_domain
   }
 }
