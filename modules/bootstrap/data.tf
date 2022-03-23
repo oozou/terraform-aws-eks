@@ -34,7 +34,7 @@ data "template_file" "aws_lb_controller_sa" {
 data "template_file" "argo_cd_values" {
   template = file("${path.module}/templates/argo-cd-values.yml")
   vars = {
-    acm_arn        = var.acm_arn
+    acm_arn        = var.acm_arn ? var.acm_arn : "\"\""
     argo_cd_domain = var.argo_cd_domain
   }
 }
