@@ -73,6 +73,10 @@ sudo helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-c
 sudo touch /opt/scripts/argo-cd-values.yml
 sudo chmod 777 /opt/scripts/argo-cd-values.yml
 sudo echo '${argo_cd_values}' > /opt/scripts/argo-cd-values.yml
+sudo helm repo add argo https://argoproj.github.io/argo-helm
+sudo helm install argo-cd argo/argo-cd -f /opt/scripts/argo-cd-values.yml  --version 4.2.1
+
+
 
 %{ endif }
 
