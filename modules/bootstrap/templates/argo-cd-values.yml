@@ -7,6 +7,22 @@ server:
   extraArgs:
     - --insecure
   name: server
+  config:
+    # Argo CD's externally facing base URL (optional). Required when configuring SSO
+    url: ${argo_cd_domain}
+    accounts.devops: login
+    accounts.dev: login
+  rbacConfig:
+    policy.default: role:readonly
+    policy.csv: |
+      p, role:argo-dev, applications, get, */*, allow
+      p, role:argo-dev, applications, override, */*, allow
+      p, role:argo-dev, applications, sync, */*, allow
+      p, role:argo-dev, applications, update, */*, allow
+      p, role:argo-dev, logs, get, */*, allow
+      p, role:argo-dev, projects, get, *, allow
+      g, dev, role:argo-dev
+      g, devops, role:admin
   ingress:
     # -- Enable an ingress resource for the Argo CD server
     enabled: true
@@ -22,3 +38,6 @@ server:
     hosts:
       - ${argo_cd_domain}
     https: false
+configs:
+  secret:
+    argocdServerAdminPassword: "$2a$10$jK.PsXe4GKnv5X2c2xzehu9uEfmY/67RVotEKYyA.VIJIK7EJZ93C%"
