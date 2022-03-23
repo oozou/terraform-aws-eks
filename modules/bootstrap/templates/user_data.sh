@@ -17,7 +17,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="userdata.txt"
 
-#!/bin/bash -e
+#!/bin/bash -xe
 # install dependencies packages
 sudo apt-get update
 sudo apt install awscli -y
