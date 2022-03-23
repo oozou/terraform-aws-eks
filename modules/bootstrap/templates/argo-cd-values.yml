@@ -8,13 +8,12 @@ server:
     - --insecure
   name: server
   config:
-    # Argo CD's externally facing base URL (optional). Required when configuring SSO
     url: ${argo_cd_domain}
     accounts.devops: login
     accounts.dev: login
   rbacConfig:
     policy.default: role:readonly
-    policy.csv: |
+    policy.csv: \|
       p, role:argo-dev, applications, get, */*, allow
       p, role:argo-dev, applications, override, */*, allow
       p, role:argo-dev, applications, sync, */*, allow
