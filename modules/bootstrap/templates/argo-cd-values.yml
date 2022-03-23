@@ -13,7 +13,7 @@ server:
     accounts.dev: login
   rbacConfig:
     policy.default: role:readonly
-    policy.csv: \|
+    policy.csv: |
       p, role:argo-dev, applications, get, */*, allow
       p, role:argo-dev, applications, override, */*, allow
       p, role:argo-dev, applications, sync, */*, allow
