@@ -11,6 +11,7 @@ server:
     url: ${argo_cd_domain}
     accounts.devops: login
     accounts.dev: login
+    accounts.readonly: login
   rbacConfig:
     policy.default: role:readonly
     policy.csv: |
@@ -20,6 +21,7 @@ server:
       p, role:argo-dev, applications, update, */*, allow
       p, role:argo-dev, logs, get, */*, allow
       p, role:argo-dev, projects, get, *, allow
+      g, readonly, role:readonly
       g, dev, role:argo-dev
       g, devops, role:admin
   ingress:
