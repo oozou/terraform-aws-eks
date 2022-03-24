@@ -16,4 +16,5 @@ module "bootstrap" {
   argo_cd_domain              = var.argo_cd_domain
   prefix                      = local.prefix
   tags                        = local.tags
+  is_config_ingress_nginx     = var.is_config_ingress_nginx
 }

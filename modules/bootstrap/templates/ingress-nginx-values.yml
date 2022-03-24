@@ -1,0 +1,35 @@
+## nginx configuration
+## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/index.md
+##
+controller:
+  name: controller
+  service:
+    enabled: true
+    appProtocol: true
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    labels: {}
+    externalIPs: []
+    loadBalancerSourceRanges: []
+    enableHttp: true
+    enableHttps: true
+    ipFamilyPolicy: "SingleStack"
+    ipFamilies:
+      - IPv4
+    ports:
+      http: 80
+      https: 443
+    targetPorts:
+      http: http
+      https: https
+    type: LoadBalancer
+
+    external:
+      enabled: true
+
+    internal:
+      enabled: false
+      annotations: {}
+      loadBalancerSourceRanges: []

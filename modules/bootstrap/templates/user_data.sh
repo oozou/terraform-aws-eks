@@ -79,6 +79,15 @@ sudo helm repo update
 sudo helm upgrade --install argo-cd argo/argo-cd -f /opt/scripts/argo-cd-values.yml  --version 4.2.1
 %{ endif }
 
+%{ if is_config_ingress_nginx }
+sudo touch /opt/scripts/ingress-nginx-values.yml
+sudo chmod 777 /opt/scripts/ingress-nginx-values.yml
+sudo echo '${ingress_nginx_values}' > /opt/scripts/ingress-nginx-values.yml
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress-nginx ingress-nginx/ingress-nginx -f /opt/scripts/ingress-nginx-values.yml --version 4.0.18
+%{ endif }
+
 sudo shutdown -h now
 
 --//--

@@ -39,6 +39,10 @@ data "template_file" "argo_cd_values" {
   }
 }
 
+data "template_file" "ingress_nginx_values" {
+  template = file("${path.module}/templates/ingress-nginx-values.yml")
+}
+
 
 data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
@@ -54,5 +58,7 @@ data "template_file" "user_data" {
     is_config_argo_cd           = var.is_config_argo_cd
     argo_cd_values              = data.template_file.argo_cd_values.rendered
     argo_cd_domain              = var.argo_cd_domain
+    is_config_ingress_nginx     = var.is_config_ingress_nginx
+    ingress_nginx_values        = data.template_file.ingress_nginx_values.rendered
   }
 }

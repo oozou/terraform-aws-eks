@@ -79,3 +79,8 @@ variable "argo_cd_domain" {
   description = "domain for ingress argo-cd. require if is_config_argo_cd is true"
   default     = ""
 }
+
+variable "is_config_ingress_nginx" {
+  description = ""
+  default     = false
+}
