@@ -18,7 +18,7 @@ data "template_file" "eks_manifest" {
   template = file("${path.module}/templates/eks-manifest-file.yml")
   vars = {
     node_group_role_arn = var.node_group_role_arn
-    admin_role_arn      = var.admin_role_arn
+    admin_role_arns      = var.admin_role_arns
     dev_role_arn        = var.dev_role_arn
     readonly_role_arn   = var.readonly_role_arn
   }
