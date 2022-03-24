@@ -37,14 +37,14 @@ variable "admin_role_arns" {
   type        = list(string)
 }
 
-variable "dev_role_arn" {
-  description = "dev role arn for grant permission to aws-auth"
-  type        = string
+variable "dev_role_arns" {
+  description = "dev role arns for grant permission to aws-auth"
+  type        = list(string)
 }
 
-variable "readonly_role_arn" {
-  description = "readonly role group arn for grant permission to aws-auth"
-  type        = string
+variable "readonly_role_arns" {
+  description = "readonly role group arns for grant permission to aws-auth"
+  type        = list(string)
 }
 
 variable "oidc_arn" {

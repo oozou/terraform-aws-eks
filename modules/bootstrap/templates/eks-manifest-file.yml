@@ -11,18 +11,15 @@ data:
       - system:nodes
       rolearn: ${node_group_role_arn}
       username: system:node:{{EC2PrivateDNSName}}
-%{ for i, arn in admin_role_arns ~}
     - groups: []
-      rolearn: ${arn}
-      username: eks-admin-${i}
-%{ endfor ~}
+      rolearn: ${admin_role_arns}
+      username: eks-admin
     - groups: []
-      rolearn: ${dev_role_arn}
+      rolearn: ${dev_role_arns}
       username: eks-developer
     - groups: []
-      rolearn: ${readonly_role_arn}
+      rolearn: ${readonly_role_arns}
       username: eks-readonly
-%{ for i, arn in admin_role_arns ~}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -30,13 +27,12 @@ metadata:
   name: eks:eks-admin-role-binding
 subjects:
   - kind: User
-    name: eks-admin-${i}
+    name: eks-admin
     apiGroup: "rbac.authorization.k8s.io"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
-%{ endfor ~}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
