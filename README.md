@@ -8,18 +8,23 @@ Terraform module with create EKS resources on AWS.
 
 ```terraform
 module "eks" {
-  source                   = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
-  name                     = "zeus-cluster"
-  environment              = "test"
-  vpc_id                   = "vpc-xxx"
-  subnets_ids              = ["subnet-xxx"]
-  admin_user_arns          = ["xxxxx"]
-  endpoint_private_access  = true
-  endpoint_public_access   = false
-  admin_role_arn           = "arn:xxxx"
-  dev_role_arn             = "arn:xxxx"
-  readonly_role_arn        = "arn:xxxx"
-  prefix                   = "oozou"
+  source                      = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
+  name                        = "zeus-cluster"
+  environment                 = "test"
+  vpc_id                      = "vpc-xxx"
+  subnets_ids                 = ["subnet-xxx"]
+  endpoint_private_access     = true
+  endpoint_public_access      = false
+  admin_role_arns             = ["arn:xxxx"]
+  dev_role_arns               = ["arn:xxxx"]
+  readonly_role_arns          = ["arn:xxxx"]
+  is_config_aws_auth          = true
+  is_config_aws_lb_controller = true
+  is_config_argo_cd           = true
+  is_config_ingress_nginx     = true
+  acm_arn                     = arn:xxxx
+  argo_cd_domain              = argo-cd.example.com
+  prefix                      = "oozou"
   aws_account = {
     access_key = "xxxx"
     secret_key = "xxx"
@@ -55,6 +60,7 @@ module "eks" {
 
 | Name | Type |
 |------|------|
+| [aws_eks_addon.vpc-cni](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_cluster.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
 | [aws_eks_node_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_iam_openid_connect_provider.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
@@ -77,23 +83,27 @@ module "eks" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | if not specify aws will auto discovery on acm with same domain | `string` | `""` | no |
 | <a name="input_additional_allow_cidr"></a> [additional\_allow\_cidr](#input\_additional\_allow\_cidr) | readonly role group arn for grant permission to aws-auth | `list(string)` | `[]` | no |
-| <a name="input_admin_role_arn"></a> [admin\_role\_arn](#input\_admin\_role\_arn) | admin role arn for grant permission to aws-auth | `string` | n/a | yes |
+| <a name="input_admin_role_arns"></a> [admin\_role\_arns](#input\_admin\_role\_arns) | admin role arns for grant permission to aws-auth | `list(string)` | n/a | yes |
 | <a name="input_admin_user_arns"></a> [admin\_user\_arns](#input\_admin\_user\_arns) | Principals to trust assume role policy and add to eks admin group for assume role | `list` | `[]` | no |
+| <a name="input_argo_cd_domain"></a> [argo\_cd\_domain](#input\_argo\_cd\_domain) | domain for ingress argo-cd. require if is\_config\_argo\_cd is true | `string` | `""` | no |
 | <a name="input_aws_account"></a> [aws\_account](#input\_aws\_account) | AWS Credentials to access AWS by bootstrap module | <pre>object({<br>    region     = string,<br>    access_key = string,<br>    secret_key = string<br>  })</pre> | n/a | yes |
-| <a name="input_config_aws_auth"></a> [config\_aws\_auth](#input\_config\_aws\_auth) | require if create lb controler | `bool` | `true` | no |
-| <a name="input_config_aws_lb_controller"></a> [config\_aws\_lb\_controller](#input\_config\_aws\_lb\_controller) | require if create lb controler | `bool` | `true` | no |
-| <a name="input_dev_role_arn"></a> [dev\_role\_arn](#input\_dev\_role\_arn) | dev role arn for grant permission to aws-auth | `string` | n/a | yes |
+| <a name="input_dev_role_arns"></a> [dev\_role\_arns](#input\_dev\_role\_arns) | dev role arns for grant permission to aws-auth | `list(string)` | n/a | yes |
 | <a name="input_eks_version"></a> [eks\_version](#input\_eks\_version) | Desired Kubernetes version. Downgrades are not supported by EKS. | `any` | `null` | no |
 | <a name="input_endpoint_private_access"></a> [endpoint\_private\_access](#input\_endpoint\_private\_access) | Whether the Amazon EKS private API server endpoint is enabled | `bool` | `true` | no |
 | <a name="input_endpoint_public_access"></a> [endpoint\_public\_access](#input\_endpoint\_public\_access) | Whether the Amazon EKS public API server endpoint is enabled | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | To manage a resources with tags | `string` | n/a | yes |
+| <a name="input_is_config_argo_cd"></a> [is\_config\_argo\_cd](#input\_is\_config\_argo\_cd) | n/a | `bool` | `false` | no |
+| <a name="input_is_config_aws_auth"></a> [is\_config\_aws\_auth](#input\_is\_config\_aws\_auth) | require if create lb controler | `bool` | `true` | no |
+| <a name="input_is_config_aws_lb_controller"></a> [is\_config\_aws\_lb\_controller](#input\_is\_config\_aws\_lb\_controller) | require if create lb controler | `bool` | `true` | no |
+| <a name="input_is_config_ingress_nginx"></a> [is\_config\_ingress\_nginx](#input\_is\_config\_ingress\_nginx) | flag to install helm nginx ingress controller | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The Name of the EKS cluster | `any` | n/a | yes |
 | <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | EKS Node Group for create EC2 as worker node | <pre>list(object({<br>    name            = string<br>    desired_size    = number<br>    max_size        = number<br>    min_size        = number<br>    max_unavailable = number<br>    instance_types  = list(string)<br><br>  }))</pre> | <pre>[<br>  {<br>    "desired_size": 1,<br>    "instance_types": [<br>      "t3.medium"<br>    ],<br>    "max_size": 1,<br>    "max_unavailable": 1,<br>    "min_size": 1,<br>    "name": "default"<br>  }<br>]</pre> | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix name of customer to be displayed in AWS console and resource | `string` | n/a | yes |
-| <a name="input_readonly_role_arn"></a> [readonly\_role\_arn](#input\_readonly\_role\_arn) | readonly role group arn for grant permission to aws-auth | `string` | n/a | yes |
+| <a name="input_readonly_role_arns"></a> [readonly\_role\_arns](#input\_readonly\_role\_arns) | readonly role group arns for grant permission to aws-auth | `list(string)` | n/a | yes |
 | <a name="input_subnets_ids"></a> [subnets\_ids](#input\_subnets\_ids) | List of IDs of subnets for create EKS | `any` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | Tag for a resource taht create by this component | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tag for a resource that create by this component | `map(string)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC for create security group | `any` | n/a | yes |
 
 ## Outputs
