@@ -19,6 +19,7 @@ Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash -xe
 # install dependencies packages
+sudo su
 sudo apt-get update
 sudo apt install awscli -y
 
