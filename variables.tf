@@ -78,9 +78,9 @@ variable "aws_account" {
   sensitive = true
 }
 
-variable "admin_role_arn" {
-  description = "admin role arn for grant permission to aws-auth"
-  type        = string
+variable "admin_role_arns" {
+  description = "admin role arns for grant permission to aws-auth"
+  type        = list(string)
 }
 
 variable "dev_role_arn" {
