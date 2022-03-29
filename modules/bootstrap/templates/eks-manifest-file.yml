@@ -11,51 +11,9 @@ data:
       - system:nodes
       rolearn: ${node_group_role_arn}
       username: system:node:{{EC2PrivateDNSName}}
-    - groups: []
-      rolearn: ${admin_role_arns}
-      username: eks-admin
-    - groups: []
-      rolearn: ${dev_role_arns}
-      username: eks-developer
-    - groups: []
-      rolearn: ${readonly_role_arns}
-      username: eks-readonly
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: eks:eks-admin-role-binding
-subjects:
-  - kind: User
-    name: eks-admin
-    apiGroup: "rbac.authorization.k8s.io"
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: eks:eks-developer-role-binding
-subjects:
-  - kind: User
-    name: eks-developer
-    apiGroup: "rbac.authorization.k8s.io"
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: edit
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: eks:eks-readonly-role-binding
-subjects:
-  - kind: User
-    name: eks-readonly
-    apiGroup: "rbac.authorization.k8s.io"
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: view
+${admin_role_arns}
+${dev_role_arns}
+${readonly_role_arns}
+${admin_role_binding}
+${dev_role_binding}
+${readonly_role_binding}

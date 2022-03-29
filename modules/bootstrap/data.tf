@@ -18,9 +18,78 @@ data "template_file" "eks_manifest" {
   template = file("${path.module}/templates/eks-manifest-file.yml")
   vars = {
     node_group_role_arn = var.node_group_role_arn
-    admin_role_arns     = var.admin_role_arns[0]
-    dev_role_arns       = var.dev_role_arns[0]
-    readonly_role_arns  = var.readonly_role_arns[0]
+    admin_role_arns     = <<EOT
+%{for i, arn in var.admin_role_arns~}
+    - groups: []
+      rolearn: ${arn}
+      username: eks-admin-${i}
+%{endfor~}
+EOT
+    dev_role_arns       = <<EOT
+%{for i, arn in var.dev_role_arns~}
+    - groups: []
+      rolearn: ${arn}
+      username: eks-developer-${i}
+%{endfor~}
+EOT
+    readonly_role_arns  = <<EOT
+%{for i, arn in var.readonly_role_arns~}
+    - groups: []
+      rolearn: ${arn}
+      username: eks-readonly-${i}
+%{endfor~}
+EOT
+    admin_role_binding = <<EOT
+%{for i, arn in var.admin_role_arns~}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:eks-admin-role-binding-${i}
+subjects:
+  - kind: User
+    name: eks-admin-${i}
+    apiGroup: "rbac.authorization.k8s.io"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+%{endfor~}
+EOT
+    dev_role_binding = <<EOT
+%{for i, arn in var.dev_role_arns~}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:eks-developer-role-binding-${i}
+subjects:
+  - kind: User
+    name: eks-developer-${i}
+    apiGroup: "rbac.authorization.k8s.io"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+%{endfor~}
+EOT
+    readonly_role_binding = <<EOT
+%{for i, arn in var.readonly_role_arns~}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:eks-readonly-role-binding-${i}
+subjects:
+  - kind: User
+    name: eks-readonly-${i}
+    apiGroup: "rbac.authorization.k8s.io"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+%{endfor~}
+EOT
   }
 }
 
