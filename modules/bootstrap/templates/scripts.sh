@@ -66,7 +66,7 @@ sudo chmod 777 /opt/scripts/ingress-nginx-values.yml
 sudo echo '${ingress_nginx_values}' > /opt/scripts/ingress-nginx-values.yml
 sudo helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 sudo helm repo update
-sudo helm install ingress-nginx ingress-nginx/ingress-nginx -f /opt/scripts/ingress-nginx-values.yml --version 4.0.18
+sudo helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx -f /opt/scripts/ingress-nginx-values.yml --version 4.0.18
 %{ endif }
 
 sudo shutdown -h now
