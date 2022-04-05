@@ -143,13 +143,13 @@ data "template_cloudinit_config" "user_data" {
   # Main cloud-config configuration file.
   part {
     filename     = "cloud-config.txt"
-    content_type = "text/cloud-config"
+    content_type = "text/cloud-config; charset=\"us-ascii\""
     content      = data.template_file.cloud_init.rendered
   }
 
   part {
     filename     = "userdata.txt"
-    content_type = "text/x-shellscript"
+    content_type = "text/x-shellscript; charset=\"us-ascii\""
     content      = data.template_file.scripts.rendered
   }
 }
