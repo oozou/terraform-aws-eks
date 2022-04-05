@@ -1,22 +1,3 @@
-Content-Type: multipart/mixed; boundary="//"
-MIME-Version: 1.0
-
---//
-Content-Type: text/cloud-config; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cloud-config.txt"
-
-#cloud-config
-cloud_final_modules:
-- [scripts-user, always]
-
---//
-Content-Type: text/x-shellscript; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="userdata.txt"
-
 #!/bin/bash -xe
 # install dependencies packages
 sudo su
@@ -89,5 +70,3 @@ sudo helm install ingress-nginx ingress-nginx/ingress-nginx -f /opt/scripts/ingr
 %{ endif }
 
 sudo shutdown -h now
-
---//--

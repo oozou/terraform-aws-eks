@@ -113,8 +113,8 @@ data "template_file" "ingress_nginx_values" {
 }
 
 
-data "template_file" "user_data" {
-  template = file("${path.module}/templates/user_data.sh")
+data "template_file" "scripts" {
+  template = file("${path.module}/templates/scripts.sh")
   vars = {
     aws_access_key_id           = var.aws_account.access_key
     aws_secret_access_key       = var.aws_account.secret_key
@@ -129,5 +129,26 @@ data "template_file" "user_data" {
     argo_cd_domain              = var.argo_cd_domain
     is_config_ingress_nginx     = var.is_config_ingress_nginx
     ingress_nginx_values        = data.template_file.ingress_nginx_values.rendered
+  }
+}
+
+data "template_file" "cloud_init" {
+  template = file("${path.module}/templates/cloud-init.yml")
+}
+
+data "template_cloudinit_config" "user_data" {
+  gzip          = false
+  base64_encode = false
+
+  # Main cloud-config configuration file.
+  part {
+    filename     = "init.cfg"
+    content_type = "text/cloud-config"
+    content      = data.template_file.cloud_init.rendered
+  }
+
+  part {
+    content_type = "text/x-shellscript"
+    content      = data.template_file.scripts.rendered
   }
 }
