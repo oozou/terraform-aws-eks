@@ -260,3 +260,43 @@ resource "aws_iam_role_policy_attachment" "aws_lb_controller" {
   role       = aws_iam_role.aws_lb_controller[0].name
   policy_arn = aws_iam_policy.aws_lb_controller[0].arn
 }
+
+
+# argo-cd image updater
+
+data "aws_iam_policy_document" "argo_cd_image_updater_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(data.aws_iam_openid_connect_provider.this.url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:kube-system:argo-cd-image-updater"]
+    }
+
+    principals {
+      identifiers = [var.oidc_arn]
+      type        = "Federated"
+    }
+  }
+}
+
+resource "aws_iam_role" "argo_cd_image_updater" {
+  count              = var.is_config_argo_cd ? 1 : 0
+  assume_role_policy = data.aws_iam_policy_document.argo_cd_image_updater_assume_role_policy.json
+  name               = "${var.prefix}-argo-cd-image-updater-role"
+  tags = merge(
+    {
+      "Name" = "${var.prefix}argo-cd-image-updater-role"
+    },
+    var.tags,
+  )
+}
+
+
+resource "aws_iam_role_policy_attachment" "argo_cd_image_updater" {
+  count      = var.is_config_argo_cd ? 1 : 0
+  role       = aws_iam_role.aws_lb_controller[0].name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}

@@ -5,6 +5,7 @@ variable "prefix" {
 
 variable "subnet_id" {
   description = "IDs of subnets for create instance"
+  type        = string
 }
 
 variable "tags" {
@@ -25,6 +26,7 @@ variable "aws_account" {
 
 variable "cluster_name" {
   description = "cluster name for get kubeconfig"
+  type        = string
 }
 
 variable "node_group_role_arn" {
@@ -49,38 +51,46 @@ variable "readonly_role_arns" {
 
 variable "oidc_arn" {
   description = "require if create lb controler"
+  type        = string
 }
 
 variable "is_config_aws_auth" {
   description = "require if create lb controler"
+  type        = bool
   default     = true
 }
 
 variable "is_config_aws_lb_controller" {
   description = "require if create lb controler"
+  type        = bool
   default     = true
 }
 
 variable "vpc_id" {
   description = "vpc id for create secgroup"
+  type        = string
 }
 
 variable "is_config_argo_cd" {
-  description = ""
+  description = "flag to install helm argo-cd on eks cluster"
+  type        = bool
+  default     = false
+}
+
+variable "is_config_ingress_nginx" {
+  description = "flag to install helm nginx ingress controller"
+  type        = bool
   default     = false
 }
 
 variable "acm_arn" {
   description = "if not specify aws will auto discovery on acm with same domain"
+  type        = string
   default     = ""
 }
 
 variable "argo_cd_domain" {
   description = "domain for ingress argo-cd. require if is_config_argo_cd is true"
+  type        = string
   default     = ""
-}
-
-variable "is_config_ingress_nginx" {
-  description = ""
-  default     = false
 }

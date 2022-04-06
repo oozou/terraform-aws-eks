@@ -18,7 +18,7 @@ resource "aws_eks_cluster" "this" {
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   depends_on = [
-    aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController,
+    aws_iam_role_policy_attachment.amazon_eks_cluster_policy,
+    aws_iam_role_policy_attachment.amazon_eks_vpc_resource_controller,
   ]
 }
