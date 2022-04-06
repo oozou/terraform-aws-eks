@@ -12,3 +12,9 @@ output "cluster_name" {
   value       = aws_eks_cluster.this.id
   description = "Name of the cluster"
 }
+
+output "openid_connect_provider_arn" {
+  value       = aws_iam_openid_connect_provider.this.arn
+  description = "arn of oidc provider"
+}
+
