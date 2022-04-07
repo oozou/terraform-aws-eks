@@ -3,6 +3,11 @@ variable "prefix" {
   type        = string
 }
 
+variable "environment" {
+  description = "To manage a resources with tags"
+  type        = string
+}
+
 variable "subnet_id" {
   description = "IDs of subnets for create instance"
   type        = string

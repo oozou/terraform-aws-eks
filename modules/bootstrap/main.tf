@@ -1,40 +1,11 @@
-resource "aws_instance" "this" {
-  ami                                  = data.aws_ami.ubuntu.id
-  instance_type                        = "t2.micro"
-  subnet_id                            = var.subnet_id
-  instance_initiated_shutdown_behavior = "stop"
-  user_data                            = data.template_cloudinit_config.user_data.rendered
-  vpc_security_group_ids               = [aws_security_group.ec2_bootstrap.id]
-  tags = merge(
-    {
-      "Name" = "${var.prefix}-bootstrap"
-    },
-    var.tags,
-  )
-  lifecycle {
-    ignore_changes = [
-      instance_state
-    ]
-  }
-}
-
-resource "aws_security_group" "ec2_bootstrap" {
-  name        = "${var.prefix}-ec2-bootstrap-sg"
-  description = "ec2 bootstrap security group for allow egress"
-  vpc_id      = var.vpc_id
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = merge(
-    {
-      "Name" = "${var.prefix}-ec2-bootstrap-sg"
-    },
-    var.tags,
-  )
+module "ec2" {
+  source       = "git::ssh://git@github.com/oozou/terraform-aws-ec2-instance.git?ref=feature_bootstap"
+  prefix       = var.prefix
+  environment  = var.environment
+  ami          = data.aws_ami.ubuntu.id
+  vpc_id       = var.vpc_id
+  subnet_id    = var.subnet_id
+  is_batch_run = true
+  user_data    = data.template_cloudinit_config.user_data.rendered
+  tags         = var.tags
 }
