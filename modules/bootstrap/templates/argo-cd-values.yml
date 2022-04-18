@@ -1,0 +1,45 @@
+## Argo CD configuration
+## Ref: https://github.com/argoproj/argo-cd
+##
+## Server
+server:
+  # -- Argo CD server name
+  extraArgs:
+    - --insecure
+  name: server
+  config:
+    url: ${argo_cd_domain}
+    accounts.devops: login
+    accounts.dev: login
+    accounts.readonly: login
+  rbacConfig:
+    policy.default: role:readonly
+    policy.csv: |
+      p, role:argo-dev, applications, get, */*, allow
+      p, role:argo-dev, applications, override, */*, allow
+      p, role:argo-dev, applications, sync, */*, allow
+      p, role:argo-dev, applications, update, */*, allow
+      p, role:argo-dev, logs, get, */*, allow
+      p, role:argo-dev, projects, get, *, allow
+      g, readonly, role:readonly
+      g, dev, role:argo-dev
+      g, devops, role:admin
+  ingress:
+    # -- Enable an ingress resource for the Argo CD server
+    enabled: true
+    # -- Additional ingress annotations
+    annotations:
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/certificate-arn: ${acm_arn}
+      alb.ingress.kubernetes.io/scheme: 'internal'
+      alb.ingress.kubernetes.io/target-type: 'ip'
+      alb.ingress.kubernetes.io/listen-ports: '\'\[\{\"HTTPS\":443\}\]\''
+      alb.ingress.kubernetes.io/ssl-redirect: '443'
+    hosts:
+      - ${argo_cd_domain}
+    https: false
+configs:
+  secret:
+    # default password is argo_admin must be change to secure password after install
+    argocdServerAdminPassword: "$2a$10$fpiE1SheM0m2A1b0i8lSFOSllRUtQAM15ZaJq8vKYb3Bf28.eQVze%"

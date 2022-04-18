@@ -12,24 +12,23 @@ data "aws_iam_policy_document" "cluster_role" {
 }
 
 resource "aws_iam_role" "cluster_role" {
-  name               = "eks-cluster-role"
+  name               = "${local.prefix}-cluster-role"
   assume_role_policy = data.aws_iam_policy_document.cluster_role.json
   tags = merge(
     {
-      "Name" = "${var.name}-${var.environment}-cluster-role"
+      "Name" = "${local.prefix}-cluster-role"
     },
-    var.tags,
-    local.default_tags
+    local.tags
   )
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "amazon_eks_cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster_role.name
 }
 
 # enable Security Groups for Pods
-resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
+resource "aws_iam_role_policy_attachment" "amazon_eks_vpc_resource_controller" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.cluster_role.name
 }
@@ -48,29 +47,39 @@ data "aws_iam_policy_document" "node_group_role" {
 }
 
 resource "aws_iam_role" "node_group_role" {
-  name               = "${var.name}-${var.environment}-cluster-node-group-role"
+  name               = "${local.prefix}-node-group-role"
   assume_role_policy = data.aws_iam_policy_document.node_group_role.json
   tags = merge(
     {
-      "Name" = "${var.name}-${var.environment}-cluster-node-group-role"
+      "Name" = "${local.prefix}-node-group-role"
     },
-    var.tags,
-    local.default_tags
+    local.tags
   )
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node_group_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "amazon_eks_cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.node_group_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "amazon_ec2_container_registry_readonly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.node_group_role.name
 }
 
+resource "aws_iam_openid_connect_provider" "this" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.this.identity[0].oidc[0].issuer
+  tags = merge(
+    {
+      "Name" = "${local.prefix}-eks-provider"
+    },
+    local.tags
+  )
+}

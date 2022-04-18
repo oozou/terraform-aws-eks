@@ -1,13 +1,12 @@
-resource "aws_security_group" "eks_allow_tls" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
+resource "aws_security_group" "cluster" {
+  name        = "${local.prefix}-eks-cluster-sg"
+  description = "EKS security group for controll access to cluster api"
   vpc_id      = var.vpc_id
   tags = merge(
     {
-      "Name" = "${var.name}-${var.environment}-cluster-allow-tls"
+      "Name" = "${local.prefix}-eks-cluster-sg"
     },
-    var.tags,
-    local.default_tags
+    local.tags
   )
 }
 
@@ -16,8 +15,8 @@ resource "aws_security_group_rule" "eks_ingress_allow_tls" {
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = [data.aws_vpc.this.cidr_block]
-  security_group_id = aws_security_group.eks_allow_tls.id
+  cidr_blocks       = concat([data.aws_vpc.this.cidr_block], var.additional_allow_cidr)
+  security_group_id = aws_security_group.cluster.id
 }
 
 resource "aws_security_group_rule" "eks_egress_allow_all" {
@@ -26,5 +25,5 @@ resource "aws_security_group_rule" "eks_egress_allow_all" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.eks_allow_tls.id
+  security_group_id = aws_security_group.cluster.id
 }
