@@ -1,5 +1,5 @@
 module "ec2" {
-  source       = "git::ssh://git@github.com/oozou/terraform-aws-ec2-instance.git?ref=feature_bootstap"
+  source       = "git::ssh://git@github.com/oozou/terraform-aws-ec2-instance.git?ref=v1.0.0"
   prefix       = var.prefix
   environment  = var.environment
   ami          = data.aws_ami.ubuntu.id

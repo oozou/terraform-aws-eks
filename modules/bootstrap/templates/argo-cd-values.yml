@@ -41,4 +41,5 @@ server:
     https: false
 configs:
   secret:
+    # default password is argo_admin must be change to secure password after install
     argocdServerAdminPassword: "$2a$10$fpiE1SheM0m2A1b0i8lSFOSllRUtQAM15ZaJq8vKYb3Bf28.eQVze%"
