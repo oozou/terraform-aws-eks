@@ -98,7 +98,7 @@ variable "readonly_role_arns" {
 }
 
 variable "additional_allow_cidr" {
-  description = "readonly role group arn for grant permission to aws-auth"
+  description = "cidr for allow connection to eks cluster"
   type        = list(string)
   default     = []
 }
