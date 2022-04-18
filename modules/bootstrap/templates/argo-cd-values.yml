@@ -41,4 +41,4 @@ server:
     https: false
 configs:
   secret:
-    argocdServerAdminPassword: "$2a$10$jK.PsXe4GKnv5X2c2xzehu9uEfmY/67RVotEKYyA.VIJIK7EJZ93C%"
+    argocdServerAdminPassword: "$2a$10$fpiE1SheM0m2A1b0i8lSFOSllRUtQAM15ZaJq8vKYb3Bf28.eQVze%"
