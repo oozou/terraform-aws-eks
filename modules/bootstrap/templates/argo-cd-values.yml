@@ -36,6 +36,7 @@ server:
       alb.ingress.kubernetes.io/target-type: 'ip'
       alb.ingress.kubernetes.io/listen-ports: '\'\[\{\"HTTPS\":443\}\]\''
       alb.ingress.kubernetes.io/ssl-redirect: '443'
+      alb.ingress.kubernetes.io/load-balancer-name: '${prefix}-${environment}-aws-argo-cd-alb'
     hosts:
       - ${argo_cd_domain}
     https: false
