@@ -19,6 +19,6 @@ module "bootstrap" {
   is_config_ingress_nginx     = var.is_config_ingress_nginx
   environment                 = var.environment
   depends_on = [
-    aws_eks_cluster.this
+    aws_eks_node_group.this
   ]
 }
