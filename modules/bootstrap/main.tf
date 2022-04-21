@@ -1,3 +1,6 @@
+resource "time_sleep" "delay_for_create_bootstrap" {
+  create_duration = "5m"
+}
 module "ec2" {
   source       = "git::ssh://git@github.com/oozou/terraform-aws-ec2-instance.git?ref=feat/add-ec2-naming"
   prefix       = var.prefix
@@ -9,4 +12,7 @@ module "ec2" {
   is_batch_run = true
   user_data    = data.template_cloudinit_config.user_data.rendered
   tags         = var.tags
+  depends_on = [
+    time_sleep.delay_for_create_bootstrap
+  ]
 }
