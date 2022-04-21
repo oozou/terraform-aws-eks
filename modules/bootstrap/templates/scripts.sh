@@ -56,6 +56,7 @@ sudo helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-c
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller \
   --version 1.4.0
+sudo sleep 60
 %{ endif }
 
 %{ if is_config_argo_cd }
