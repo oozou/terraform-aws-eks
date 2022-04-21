@@ -1,5 +1,5 @@
 resource "time_sleep" "delay_for_create_bootstrap" {
-  create_duration = "5m"
+  create_duration = "10m"
   depends_on = [
     aws_eks_node_group.this
   ]
