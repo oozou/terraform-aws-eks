@@ -14,8 +14,11 @@ module "bootstrap" {
   is_config_argo_cd           = var.is_config_argo_cd
   acm_arn                     = var.acm_arn
   argo_cd_domain              = var.argo_cd_domain
-  prefix                      = local.prefix
+  prefix                      = var.prefix
   tags                        = var.tags
   is_config_ingress_nginx     = var.is_config_ingress_nginx
   environment                 = var.environment
+  depends_on = [
+    aws_eks_node_group.this
+  ]
 }

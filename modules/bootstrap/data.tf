@@ -105,6 +105,8 @@ data "template_file" "argo_cd_values" {
   vars = {
     acm_arn        = var.acm_arn != "" ? var.acm_arn : "\"\""
     argo_cd_domain = var.argo_cd_domain
+    prefix         = var.prefix
+    environment    = var.environment
   }
 }
 
