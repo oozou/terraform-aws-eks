@@ -93,44 +93,15 @@ EOT
   }
 }
 
-data "template_file" "aws_lb_controller_sa" {
-  template = file("${path.module}/templates/aws-lb-controller-sa.yml")
-  vars = {
-    aws_lb_controller_role_arn = var.is_config_aws_lb_controller ? aws_iam_role.aws_lb_controller[0].arn : ""
-  }
-}
-
-data "template_file" "argo_cd_values" {
-  template = file("${path.module}/templates/argo-cd-values.yml")
-  vars = {
-    acm_arn        = var.acm_arn != "" ? var.acm_arn : "\"\""
-    argo_cd_domain = var.argo_cd_domain
-    prefix         = var.prefix
-    environment    = var.environment
-  }
-}
-
-data "template_file" "ingress_nginx_values" {
-  template = file("${path.module}/templates/ingress-nginx-values.yml")
-}
-
-
 data "template_file" "scripts" {
   template = file("${path.module}/templates/scripts.sh")
   vars = {
-    aws_access_key_id           = var.aws_account.access_key
-    aws_secret_access_key       = var.aws_account.secret_key
-    region                      = var.aws_account.region
-    cluster_name                = var.cluster_name
-    eks_manifest_file           = data.template_file.eks_manifest.rendered
-    aws_lb_controller_sa        = data.template_file.aws_lb_controller_sa.rendered
-    is_config_aws_auth          = var.is_config_aws_auth
-    is_config_aws_lb_controller = var.is_config_aws_lb_controller
-    is_config_argo_cd           = var.is_config_argo_cd
-    argo_cd_values              = data.template_file.argo_cd_values.rendered
-    argo_cd_domain              = var.argo_cd_domain
-    is_config_ingress_nginx     = var.is_config_ingress_nginx
-    ingress_nginx_values        = data.template_file.ingress_nginx_values.rendered
+    aws_access_key_id     = var.aws_account.access_key
+    aws_secret_access_key = var.aws_account.secret_key
+    region                = var.aws_account.region
+    cluster_name          = var.cluster_name
+    is_config_aws_auth    = var.is_config_aws_auth
+    eks_manifest_file     = data.template_file.eks_manifest.rendered
   }
 }
 
