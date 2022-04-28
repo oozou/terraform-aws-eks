@@ -22,7 +22,11 @@ module "eks" {
   is_config_aws_auth                   = true
   is_create_loadbalancer_controller_sa = true #name: aws-load-balancer-controller
   is_create_argo_image_updater_sa      = true #name: argo-cd-image-updater
-  additional_service_accounts          = []
+  additional_service_accounts          = [{
+    name                 = "argo-cd-image-updater2"
+    namespace            = "argocd"
+    existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
+  }]
   aws_account = {
     access_key = "xxxx"
     secret_key = "xxx"

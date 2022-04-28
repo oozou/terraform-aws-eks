@@ -125,6 +125,7 @@ variable "additional_service_accounts" {
   description = "additional service account to access eks"
   type = list(object({
     name                 = string
+    namespace            = string
     existing_policy_arns = list(string)
   }))
   default = []

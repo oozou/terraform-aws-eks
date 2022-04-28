@@ -19,7 +19,7 @@ output "openid_connect_provider_arn" {
 }
 
 output "service_account_role_arns" {
-    description = "created role arn for create service accounts in cluster"
-    value = module.openid_connect.service_account_role_arns
+  description = "created role arn for create service accounts in cluster"
+  value       = module.openid_connect.service_account_role_arns
 }
 

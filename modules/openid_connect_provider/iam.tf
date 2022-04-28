@@ -228,7 +228,7 @@ data "aws_iam_policy_document" "aws_sa_assume_role_policy" {
     condition {
       test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.this.url, "https://", "")}:sub"
-      values   = [format("system:serviceaccount:kube-system:%s", local.service_accounts[count.index].name)]
+      values   = [format("system:serviceaccount:%s:%s", local.service_accounts[count.index].namespace, local.service_accounts[count.index].name)]
     }
     principals {
       identifiers = [aws_iam_openid_connect_provider.this.arn]
