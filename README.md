@@ -8,21 +8,21 @@ Terraform module with create EKS resources on AWS.
 
 ```terraform
 module "eks" {
-  source                      = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
-  name                        = "zeus-cluster"
-  environment                 = "test"
-  vpc_id                      = "vpc-xxx"
-  subnets_ids                 = ["subnet-xxx"]
-  endpoint_private_access     = true
-  endpoint_public_access      = false
-  admin_role_arns             = ["arn:xxxx"]
-  dev_role_arns               = ["arn:xxxx"]
-  readonly_role_arns          = ["arn:xxxx"]
-  is_config_aws_auth          = true
-  is_create_loadbalancer_controller_sa = true
-  is_create_argo_image_updater_sa      = true
+  source                               = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
+  name                                 = "example-cluster"
+  prefix                               = "oozou"
+  environment                          = "test"
+  vpc_id                               = "vpc-xxx"
+  subnets_ids                          = ["subnet-xxx"]
+  endpoint_private_access              = true
+  endpoint_public_access               = false
+  admin_role_arns                      = ["arn:xxxx"]
+  dev_role_arns                        = ["arn:xxxx"]
+  readonly_role_arns                   = ["arn:xxxx"]
+  is_config_aws_auth                   = true
+  is_create_loadbalancer_controller_sa = true #name: aws-load-balancer-controller
+  is_create_argo_image_updater_sa      = true #name: argo-cd-image-updater
   additional_service_accounts          = []
-  prefix                      = "oozou"
   aws_account = {
     access_key = "xxxx"
     secret_key = "xxx"

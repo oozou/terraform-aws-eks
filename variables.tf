@@ -110,13 +110,13 @@ variable "is_config_aws_auth" {
 }
 
 variable "is_create_loadbalancer_controller_sa" {
-  description = "is create default role with permission for aws loadbalancer controller"
+  description = "is create default role with permission for aws loadbalancer controller (name : aws-load-balancer-controller)"
   type        = bool
   default     = true
 }
 
 variable "is_create_argo_image_updater_sa" {
-  description = "is create default role with permission for argo-cd image updater"
+  description = "is create default role with permission for argo-cd image updater (name : argo-cd-image-updater)"
   type        = bool
   default     = true
 }
