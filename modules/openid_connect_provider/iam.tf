@@ -241,7 +241,7 @@ resource "aws_iam_role" "aws_sa" {
   count               = length(local.service_accounts)
   assume_role_policy  = data.aws_iam_policy_document.aws_sa_assume_role_policy[count.index].json
   managed_policy_arns = local.service_accounts[count.index].existing_policy_arns
-  name                = format("%s-%s-%s-eks-service-account-role", var.prefix, var.environment, local.service_accounts[count.index].name)
+  name                = format("%s-%s-%s-eks-sa-role", var.prefix, var.environment, local.service_accounts[count.index].name)
   tags = merge(
     {
       "Name" = format("%s-%s-%s-eks-service-account-role", var.prefix, var.environment, local.service_accounts[count.index].name)
