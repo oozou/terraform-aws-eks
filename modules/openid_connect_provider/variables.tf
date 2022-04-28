@@ -19,15 +19,6 @@ variable "cluster_oidc_issuer" {
   type        = string
 }
 
-variable "additional_service_accounts" {
-  description = "additional service account to access eks"
-  type = list(object({
-    name                 = string
-    existing_policy_arns = list(string)
-  }))
-  default = []
-}
-
 variable "is_create_loadbalancer_controller_sa" {
   description = "is create default role with permission for aws loadbalancer controller"
   type        = bool
@@ -38,4 +29,13 @@ variable "is_create_argo_image_updater_sa" {
   description = "is create default role with permission for argo-cd image updater"
   type        = bool
   default     = true
+}
+
+variable "additional_service_accounts" {
+  description = "additional service account to access eks"
+  type = list(object({
+    name                 = string
+    existing_policy_arns = list(string)
+  }))
+  default = []
 }

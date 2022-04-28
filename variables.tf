@@ -109,32 +109,23 @@ variable "is_config_aws_auth" {
   default     = true
 }
 
-variable "is_config_aws_lb_controller" {
-  description = "require if create lb controler"
+variable "is_create_loadbalancer_controller_sa" {
+  description = "is create default role with permission for aws loadbalancer controller"
   type        = bool
   default     = true
 }
 
-variable "is_config_argo_cd" {
-  description = "flag to install helm argo-cd on eks cluster"
+variable "is_create_argo_image_updater_sa" {
+  description = "is create default role with permission for argo-cd image updater"
   type        = bool
-  default     = false
+  default     = true
 }
 
-variable "is_config_ingress_nginx" {
-  description = "flag to install helm nginx ingress controller"
-  type        = bool
-  default     = false
-}
-
-variable "acm_arn" {
-  description = "if not specify aws will auto discovery on acm with same domain"
-  type        = string
-  default     = ""
-}
-
-variable "argo_cd_domain" {
-  description = "domain for ingress argo-cd. require if is_config_argo_cd is true"
-  type        = string
-  default     = ""
+variable "additional_service_accounts" {
+  description = "additional service account to access eks"
+  type = list(object({
+    name                 = string
+    existing_policy_arns = list(string)
+  }))
+  default = []
 }
