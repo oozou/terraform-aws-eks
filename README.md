@@ -14,8 +14,8 @@ module "eks" {
   environment                          = "test"
   vpc_id                               = "vpc-xxx"
   subnets_ids                          = ["subnet-xxx"]
-  endpoint_private_access              = true
-  endpoint_public_access               = false
+  is_endpoint_private_access           = true
+  is_endpoint_public_access            = false
   admin_role_arns                      = ["arn:xxxx"]
   dev_role_arns                        = ["arn:xxxx"]
   readonly_role_arns                   = ["arn:xxxx"]
