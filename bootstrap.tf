@@ -1,4 +1,5 @@
 module "bootstrap" {
+  count               = var.is_create_bootstrap ? 1 : 0
   source              = "./modules/bootstrap"
   subnet_id           = var.subnets_ids[0]
   cluster_name        = aws_eks_cluster.this.name

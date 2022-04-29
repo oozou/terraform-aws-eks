@@ -1,4 +1,5 @@
 module "openid_connect" {
+  count                                = var.is_create_open_id_connect ? 1 : 0
   source                               = "./modules/openid_connect_provider"
   prefix                               = var.prefix
   environment                          = var.environment

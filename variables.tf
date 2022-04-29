@@ -130,3 +130,15 @@ variable "additional_service_accounts" {
   }))
   default = []
 }
+
+variable "is_create_open_id_connect" {
+  description = "if true will create oidc provider and iam role for service account"
+  type        = bool
+  default     = true
+}
+
+variable "is_create_bootstrap" {
+  description = "if true will create bootstrap for config aws-auth"
+  type        = bool
+  default     = true
+}
