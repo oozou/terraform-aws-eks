@@ -4,8 +4,11 @@ resource "aws_eks_node_group" "this" {
   node_group_name = "${local.prefix}-${var.node_groups[count.index].name}-nodegroup"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids      = var.subnets_ids
+  ami_type        = var.node_groups[count.index].ami_type
   instance_types  = var.node_groups[count.index].instance_types
-
+  capacity_type   = var.node_groups[count.index].is_spot_instances ? "SPOT" : "ON_DEMAND"
+  disk_size       = var.node_groups[count.index].disk_size
+  labels          = var.node_groups[count.index].labels
   scaling_config {
     desired_size = var.node_groups[count.index].desired_size
     max_size     = var.node_groups[count.index].max_size
