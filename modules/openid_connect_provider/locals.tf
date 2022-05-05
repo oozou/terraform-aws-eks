@@ -3,7 +3,7 @@ locals {
   loadbalancer_controller_sa = {
     name                 = "aws-load-balancer-controller"
     namespace = "kube-system"
-    existing_policy_arns = [aws_iam_policy.aws_lb_controller[0].arn]
+    existing_policy_arns = [try(aws_iam_policy.aws_lb_controller[0].arn, null)]
   }
   argo_image_updater_sa = {
     name                 = "argo-cd-image-updater"
