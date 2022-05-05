@@ -51,16 +51,13 @@ variable "eks_version" {
 variable "node_groups" {
   description = " EKS Node Group for create EC2 as worker node"
   type = list(object({
-    name              = string
-    desired_size      = number
-    max_size          = number
-    min_size          = number
-    max_unavailable   = number
-    instance_types    = list(string)
-    ami_type          = string
-    is_spot_instances = bool
-    disk_size         = number
-    labels            = map(any) #for kubernetes api
+    name            = string
+    desired_size    = number
+    max_size        = number
+    min_size        = number
+    max_unavailable = number
+    instance_types  = list(string)
+
   }))
   default = [{
     name : "default",
@@ -68,13 +65,7 @@ variable "node_groups" {
     max_size : 1,
     min_size : 1,
     max_unavailable : 1,
-    instance_types : ["t3.medium"],
-    ami_type : null,
-    is_spot_instances : false
-    disk_size : 20
-    labels : {
-      default_nodegroup_labels = "default-nodegroup"
-    }
+    instance_types : ["t3.medium"]
   }]
 }
 
