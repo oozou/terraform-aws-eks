@@ -19,6 +19,11 @@ variable "cluster_oidc_issuer" {
   type        = string
 }
 
+variable "cluster_name" {
+  description = "eks cluster name for setup iam policy to allow only cluster"
+  type        = string
+}
+
 variable "is_create_loadbalancer_controller_sa" {
   description = "is create default role with permission for aws loadbalancer controller"
   type        = bool
@@ -27,6 +32,12 @@ variable "is_create_loadbalancer_controller_sa" {
 
 variable "is_create_argo_image_updater_sa" {
   description = "is create default role with permission for argo-cd image updater"
+  type        = bool
+  default     = true
+}
+
+variable "is_create_cluster_autoscaler_sa" {
+  description = "is create default role with permission for eks cluster autoscaler"
   type        = bool
   default     = true
 }

@@ -215,10 +215,45 @@ data "aws_iam_policy_document" "aws_lb_controller_policy" {
 
 resource "aws_iam_policy" "aws_lb_controller" {
   count       = var.is_create_loadbalancer_controller_sa ? 1 : 0
-  name        = format("%s-%s-lb-controller-eks-service-account-role", var.prefix, var.environment)
+  name        = format("%s-lb-controller-eks-sa-role", var.cluster_name)
   description = "aws lb controller require policy"
   policy      = data.aws_iam_policy_document.aws_lb_controller_policy.json
 }
+
+data "aws_iam_policy_document" "cluster_autoscaler" {
+  statement {
+    actions = [
+      "autoscaling:SetDesiredCapacity",
+      "autoscaling:TerminateInstanceInAutoScalingGroup"
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      variable = format("aws:ResourceTag/k8s.io/cluster-autoscaler/%s", var.cluster_name)
+      values   = ["owned"]
+    }
+  }
+  statement {
+    actions = [
+      "autoscaling:DescribeAutoScalingInstances",
+      "autoscaling:DescribeAutoScalingGroups",
+      "ec2:DescribeLaunchTemplateVersions",
+      "autoscaling:DescribeTags",
+      "autoscaling:DescribeLaunchConfigurations"
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "cluster_autoscaler" {
+  count       = var.is_create_cluster_autoscaler_sa ? 1 : 0
+  name        = format("%s-eks-autoscaler-sa-role", var.cluster_name)
+  description = "eks cluster auto scaler require policy"
+  policy      = data.aws_iam_policy_document.cluster_autoscaler.json
+}
+
 
 data "aws_iam_policy_document" "aws_sa_assume_role_policy" {
   count = length(local.service_accounts)
@@ -244,7 +279,7 @@ resource "aws_iam_role" "aws_sa" {
   name                = format("%s-%s-%s-eks-sa-role", var.prefix, var.environment, local.service_accounts[count.index].name)
   tags = merge(
     {
-      "Name" = format("%s-%s-%s-eks-service-account-role", var.prefix, var.environment, local.service_accounts[count.index].name)
+      "Name" = format("%s-%s-%s-eks-sa-role", var.prefix, var.environment, local.service_accounts[count.index].name)
     },
     var.tags,
   )

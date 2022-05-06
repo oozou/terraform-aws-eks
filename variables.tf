@@ -121,6 +121,11 @@ variable "is_create_argo_image_updater_sa" {
   default     = true
 }
 
+variable "is_create_cluster_autoscaler_sa" {
+  description = "is create default role with permission for eks cluster autoscaler"
+  type        = bool
+  default     = true
+}
 variable "additional_service_accounts" {
   description = "additional service account to access eks"
   type = list(object({
@@ -129,6 +134,12 @@ variable "additional_service_accounts" {
     existing_policy_arns = list(string)
   }))
   default = []
+}
+
+variable "additional_addons" {
+  description = "additional addons for eks cluster"
+  type = list(string)
+  default = ["vpc-cni"]
 }
 
 variable "is_create_open_id_connect" {
