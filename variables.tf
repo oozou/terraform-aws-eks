@@ -29,13 +29,13 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "endpoint_private_access" {
+variable "is_endpoint_private_access" {
   description = "Whether the Amazon EKS private API server endpoint is enabled"
   type        = bool
   default     = true
 }
 
-variable "endpoint_public_access" {
+variable "is_endpoint_public_access" {
   description = "Whether the Amazon EKS public API server endpoint is enabled"
   type        = bool
   default     = false
@@ -51,13 +51,16 @@ variable "eks_version" {
 variable "node_groups" {
   description = " EKS Node Group for create EC2 as worker node"
   type = list(object({
-    name            = string
-    desired_size    = number
-    max_size        = number
-    min_size        = number
-    max_unavailable = number
-    instance_types  = list(string)
-
+    name              = string
+    desired_size      = number
+    max_size          = number
+    min_size          = number
+    max_unavailable   = number
+    ami_type          = string
+    is_spot_instances = bool
+    disk_size         = number
+    labels            = map(any) #for kubernetes api
+    instance_types    = list(string)
   }))
   default = [{
     name : "default",
@@ -65,6 +68,12 @@ variable "node_groups" {
     max_size : 1,
     min_size : 1,
     max_unavailable : 1,
+    ami_type : "AL2_x86_64"
+    is_spot_instances : false
+    disk_size : 20
+    labels : {
+      default_nodegroup_labels = "default-nodegroup"
+    }
     instance_types : ["t3.medium"]
   }]
 }
@@ -109,32 +118,47 @@ variable "is_config_aws_auth" {
   default     = true
 }
 
-variable "is_config_aws_lb_controller" {
-  description = "require if create lb controler"
+variable "is_create_loadbalancer_controller_sa" {
+  description = "is create default role with permission for aws loadbalancer controller (name : aws-load-balancer-controller)"
   type        = bool
   default     = true
 }
 
-variable "is_config_argo_cd" {
-  description = "flag to install helm argo-cd on eks cluster"
+variable "is_create_argo_image_updater_sa" {
+  description = "is create default role with permission for argo-cd image updater (name : argo-cd-image-updater)"
   type        = bool
-  default     = false
+  default     = true
 }
 
-variable "is_config_ingress_nginx" {
-  description = "flag to install helm nginx ingress controller"
+variable "is_create_cluster_autoscaler_sa" {
+  description = "is create default role with permission for eks cluster autoscaler"
   type        = bool
-  default     = false
+  default     = true
+}
+variable "additional_service_accounts" {
+  description = "additional service account to access eks"
+  type = list(object({
+    name                 = string
+    namespace            = string
+    existing_policy_arns = list(string)
+  }))
+  default = []
 }
 
-variable "acm_arn" {
-  description = "if not specify aws will auto discovery on acm with same domain"
-  type        = string
-  default     = ""
+variable "additional_addons" {
+  description = "additional addons for eks cluster"
+  type        = list(string)
+  default     = ["vpc-cni"]
 }
 
-variable "argo_cd_domain" {
-  description = "domain for ingress argo-cd. require if is_config_argo_cd is true"
-  type        = string
-  default     = ""
+variable "is_create_open_id_connect" {
+  description = "if true will create oidc provider and iam role for service account"
+  type        = bool
+  default     = true
+}
+
+variable "is_create_bootstrap" {
+  description = "if true will create bootstrap for config aws-auth"
+  type        = bool
+  default     = true
 }
