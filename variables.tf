@@ -52,6 +52,7 @@ variable "node_groups" {
   description = " EKS Node Group for create EC2 as worker node"
   type = list(object({
     name              = string
+    replace_subnets   = list(string)
     desired_size      = number
     max_size          = number
     min_size          = number
@@ -64,6 +65,7 @@ variable "node_groups" {
   }))
   default = [{
     name : "default",
+    replace_subnets : [], # empty if use same subnet with cluster
     desired_size : 1,
     max_size : 1,
     min_size : 1,

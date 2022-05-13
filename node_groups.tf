@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "this" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${local.prefix}-${var.node_groups[count.index].name}-nodegroup"
   node_role_arn   = aws_iam_role.node_group_role.arn
-  subnet_ids      = var.subnets_ids
+  subnet_ids      = length(var.node_groups[count.index].replace_subnets) == 0 ? var.subnets_ids : var.node_groups[count.index].replace_subnets
   instance_types  = var.node_groups[count.index].instance_types
   ami_type        = var.node_groups[count.index].ami_type
   capacity_type   = var.node_groups[count.index].is_spot_instances ? "SPOT" : "ON_DEMAND"
