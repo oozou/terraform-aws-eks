@@ -26,6 +26,12 @@ resource "aws_eks_node_group" "this" {
     local.tags
   )
 
+  taint = var.node_groups[count.index].taint
+
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size] # for support scaling
+  }
+
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling
   depends_on = [
     aws_iam_role_policy_attachment.amazon_eks_worker_node_policy,
