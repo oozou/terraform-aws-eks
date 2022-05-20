@@ -8,7 +8,7 @@ Terraform module with create EKS resources on AWS.
 
 ```terraform
 module "eks" {
-  source                     = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
+  source                     = "git::ssh://git@github.com/<repository>/terraform-aws-eks.git?ref=v1.0.0"
   vpc_id                     = "vpc-xxx"
   private_subnet_ids         = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
   prefix                     = "customer"
@@ -32,8 +32,8 @@ module "eks" {
     namespace            = "argocd"
     existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
   }]
-  node_groups = [
-    {
+  node_groups = {
+    custom = {
       name : "default-spot",
       replace_subnets : ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
       desired_size : 1,
@@ -53,7 +53,7 @@ module "eks" {
       }
       instance_types : ["t3.medium"]
     }
-  ]
+  }
   additional_addons = {
     vpc-cni = {
         name = "vpc-cni",

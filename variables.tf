@@ -50,10 +50,10 @@ variable "eks_version" {
 
 variable "node_groups" {
   description = " EKS Node Group for create EC2 as worker node"
-  type        = list(any)
-  default = [{
-    name : "default",
-    replace_subnets : [], # empty if use same subnet with cluster
+  type        = map(any)
+  default = {
+    default = {
+    # replace_subnets : use same subnet with cluster
     desired_size : 1,
     max_size : 1,
     min_size : 1,
@@ -66,7 +66,7 @@ variable "node_groups" {
       default_nodegroup_labels = "default-nodegroup"
     }
     instance_types : ["t3.medium"]
-  }]
+  }}
 }
 
 variable "aws_account" {
