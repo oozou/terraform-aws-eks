@@ -14,6 +14,6 @@ module "bootstrap" {
   tags                = var.tags
   environment         = var.environment
   depends_on = [
-    aws_eks_node_group.this
+    aws_eks_cluster.this
   ]
 }

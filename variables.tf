@@ -50,34 +50,23 @@ variable "eks_version" {
 
 variable "node_groups" {
   description = " EKS Node Group for create EC2 as worker node"
-  type = list(object({
-    name              = string
-    replace_subnets   = list(string)
-    desired_size      = number
-    max_size          = number
-    min_size          = number
-    max_unavailable   = number
-    ami_type          = string
-    is_spot_instances = bool
-    disk_size         = number
-    labels            = map(any) #for kubernetes api
-    instance_types    = list(string)
-  }))
-  default = [{
-    name : "default",
-    replace_subnets : [], # empty if use same subnet with cluster
+  type        = map(any)
+  default = {
+    default = {
+    # replace_subnets : use same subnet with cluster
     desired_size : 1,
     max_size : 1,
     min_size : 1,
     max_unavailable : 1,
     ami_type : "AL2_x86_64"
     is_spot_instances : false
-    disk_size : 20
+    disk_size : 20,
+    taint : {}
     labels : {
       default_nodegroup_labels = "default-nodegroup"
     }
     instance_types : ["t3.medium"]
-  }]
+  }}
 }
 
 variable "aws_account" {
@@ -149,8 +138,12 @@ variable "additional_service_accounts" {
 
 variable "additional_addons" {
   description = "additional addons for eks cluster"
-  type        = list(string)
-  default     = ["vpc-cni"]
+  type        = map(any)
+  default = {
+    vpc-cni = {
+      name = "vpc-cni",
+    }
+  }
 }
 
 variable "is_create_open_id_connect" {

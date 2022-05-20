@@ -8,17 +8,22 @@ Terraform module with create EKS resources on AWS.
 
 ```terraform
 module "eks" {
-  source                               = "git::ssh://git@github.com/oozou/terraform-aws-eks.git?ref=v1.0.0"
-  name                                 = "example-cluster"
-  prefix                               = "oozou"
-  environment                          = "test"
-  vpc_id                               = "vpc-xxx"
-  subnets_ids                          = ["subnet-xxx"]
-  is_endpoint_private_access           = true
-  is_endpoint_public_access            = false
-  admin_role_arns                      = ["arn:xxxx"]
-  dev_role_arns                        = ["arn:xxxx"]
-  readonly_role_arns                   = ["arn:xxxx"]
+  source                     = "git::ssh://git@github.com/<repository>/terraform-aws-eks.git?ref=v1.0.0"
+  vpc_id                     = "vpc-xxx"
+  private_subnet_ids         = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
+  prefix                     = "customer"
+  name                       = "test-cluter"
+  environment                = "dev"
+  is_endpoint_private_access = true
+  is_endpoint_public_access  = false
+  aws_account = {
+    access_key = "xxx"
+    region     = "ap-southeast-1"
+    secret_key = "xxx"
+  }
+  readonly_role_arns                   = ["arn:aws:iam::xxx:role/DEVOPS-ReadOnlyUserFederatedSSORole"]
+  dev_role_arns                        = ["arn:aws:iam::xxx:role/DEVOPS-DeveloperUserFederatedSSORole"]
+  admin_role_arns                      = ["arn:aws:iam::xxx:role/DEVOPS-PowerUserFederatedSSORole"]
   is_config_aws_auth                   = true
   is_create_loadbalancer_controller_sa = true #name: aws-load-balancer-controller
   is_create_argo_image_updater_sa      = true #name: argo-cd-image-updater
@@ -27,13 +32,32 @@ module "eks" {
     namespace            = "argocd"
     existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
   }]
-  aws_account = {
-    access_key = "xxxx"
-    secret_key = "xxx"
-    region     = "ap-southeast-1"
+  node_groups = {
+    custom = {
+      name : "default-spot",
+      replace_subnets : ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
+      desired_size : 1,
+      max_size : 1,
+      min_size : 1,
+      max_unavailable : 1,
+      ami_type : "AL2_x86_64"
+      is_spot_instances : true
+      disk_size : 20
+      taint : [{
+        key : "dedicated"
+        value : "gpuGroup"
+        effect : "NO_SCHEDULE"
+      }]
+      labels : {
+        default_nodegroup_labels = "default-nodegroup"
+      }
+      instance_types : ["t3.medium"]
+    }
   }
-  tags = {
-    "key" = "value"
+  additional_addons = {
+    vpc-cni = {
+        name = "vpc-cni",
+    }
   }
 }
 ```
@@ -64,7 +88,7 @@ module "eks" {
 
 | Name | Type |
 |------|------|
-| [aws_eks_addon.vpc_cni](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_cluster.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
 | [aws_eks_node_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_iam_role.cluster_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -85,7 +109,7 @@ module "eks" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_addons"></a> [additional\_addons](#input\_additional\_addons) | additional addons for eks cluster | `list(string)` | <pre>[<br>  "vpc-cni"<br>]</pre> | no |
+| <a name="input_additional_addons"></a> [additional\_addons](#input\_additional\_addons) | additional addons for eks cluster | `map(any)` | <pre>{<br>  "vpc-cni": {<br>    "name": "vpc-cni"<br>  }<br>}</pre> | no |
 | <a name="input_additional_allow_cidr"></a> [additional\_allow\_cidr](#input\_additional\_allow\_cidr) | cidr for allow connection to eks cluster | `list(string)` | `[]` | no |
 | <a name="input_additional_service_accounts"></a> [additional\_service\_accounts](#input\_additional\_service\_accounts) | additional service account to access eks | <pre>list(object({<br>    name                 = string<br>    namespace            = string<br>    existing_policy_arns = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_admin_role_arns"></a> [admin\_role\_arns](#input\_admin\_role\_arns) | admin role arns for grant permission to aws-auth | `list(string)` | `[]` | no |
@@ -102,7 +126,7 @@ module "eks" {
 | <a name="input_is_endpoint_private_access"></a> [is\_endpoint\_private\_access](#input\_is\_endpoint\_private\_access) | Whether the Amazon EKS private API server endpoint is enabled | `bool` | `true` | no |
 | <a name="input_is_endpoint_public_access"></a> [is\_endpoint\_public\_access](#input\_is\_endpoint\_public\_access) | Whether the Amazon EKS public API server endpoint is enabled | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The Name of the EKS cluster | `string` | n/a | yes |
-| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | EKS Node Group for create EC2 as worker node | <pre>list(object({<br>    name              = string<br>    desired_size      = number<br>    max_size          = number<br>    min_size          = number<br>    max_unavailable   = number<br>    ami_type          = string<br>    is_spot_instances = bool<br>    disk_size         = number<br>    labels            = map(any) #for kubernetes api<br>    instance_types    = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "ami_type": "AL2_x86_64",<br>    "desired_size": 1,<br>    "disk_size": 20,<br>    "instance_types": [<br>      "t3.medium"<br>    ],<br>    "is_spot_instances": false,<br>    "labels": {<br>      "default_nodegroup_labels": "default-nodegroup"<br>    },<br>    "max_size": 1,<br>    "max_unavailable": 1,<br>    "min_size": 1,<br>    "name": "default"<br>  }<br>]</pre> | no |
+| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | EKS Node Group for create EC2 as worker node | `list(any)` | <pre>[<br>  {<br>    "ami_type": "AL2_x86_64",<br>    "desired_size": 1,<br>    "disk_size": 20,<br>    "instance_types": [<br>      "t3.medium"<br>    ],<br>    "is_spot_instances": false,<br>    "labels": {<br>      "default_nodegroup_labels": "default-nodegroup"<br>    },<br>    "max_size": 1,<br>    "max_unavailable": 1,<br>    "min_size": 1,<br>    "name": "default",<br>    "replace_subnets": [],<br>    "taint": {}<br>  }<br>]</pre> | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix name of customer to be displayed in AWS console and resource | `string` | n/a | yes |
 | <a name="input_readonly_role_arns"></a> [readonly\_role\_arns](#input\_readonly\_role\_arns) | readonly role group arns for grant permission to aws-auth | `list(string)` | `[]` | no |
 | <a name="input_subnets_ids"></a> [subnets\_ids](#input\_subnets\_ids) | List of IDs of subnets for create EKS | `list(string)` | n/a | yes |
