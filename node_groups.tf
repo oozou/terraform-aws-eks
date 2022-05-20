@@ -27,7 +27,7 @@ resource "aws_eks_node_group" "this" {
   )
 
   dynamic "taint" {
-    for_each = each.value.taint
+    for_each = lookup(each.value.taint, {})
     content {
       key    = taint.value.key
       value  = lookup(taint.value, "value", null)
