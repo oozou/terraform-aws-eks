@@ -62,7 +62,7 @@ variable "node_groups" {
     disk_size         = number
     labels            = map(any) #for kubernetes api
     instance_types    = list(string)
-    taint             = map(any)
+    taint             = list(map(any)) # key, value, effect
   }))
   default = [{
     name : "default",
@@ -74,7 +74,7 @@ variable "node_groups" {
     ami_type : "AL2_x86_64"
     is_spot_instances : false
     disk_size : 20,
-    taint : null
+    taint : []
     labels : {
       default_nodegroup_labels = "default-nodegroup"
     }

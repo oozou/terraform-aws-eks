@@ -26,7 +26,17 @@ resource "aws_eks_node_group" "this" {
     local.tags
   )
 
-  taint = var.node_groups[count.index].taint
+  dynamic "taint" {
+    for_each = var.node_groups[count.index].taint
+    content {
+      # key = lookup(taint, "key", null)
+      # value = lookup(taint, "value", null)
+      # effect =  lookup(taint, "effect", null)  #Valid values: NO_SCHEDULE, NO_EXECUTE, PREFER_NO_SCHEDULE
+      key    = "test"
+      value  = "test"
+      effect = "NO_SCHEDULE"
+    }
+  }
 
   lifecycle {
     ignore_changes = [scaling_config[0].desired_size] # for support scaling
