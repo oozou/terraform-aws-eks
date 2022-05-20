@@ -151,8 +151,12 @@ variable "additional_service_accounts" {
 
 variable "additional_addons" {
   description = "additional addons for eks cluster"
-  type        = list(string)
-  default     = ["vpc-cni"]
+  type        = map(any)
+  default = {
+    vpc-cni = {
+      name = "vpc-cni",
+    }
+  }
 }
 
 variable "is_create_open_id_connect" {
