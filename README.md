@@ -25,8 +25,8 @@ module "eks" {
   dev_role_arns                        = ["arn:aws:iam::xxx:role/DEVOPS-DeveloperUserFederatedSSORole"]
   admin_role_arns                      = ["arn:aws:iam::xxx:role/DEVOPS-PowerUserFederatedSSORole"]
   is_config_aws_auth                   = true
-  is_create_loadbalancer_controller_sa = false
-  is_create_argo_image_updater_sa      = false
+  is_create_loadbalancer_controller_sa = true #name: aws-load-balancer-controller
+  is_create_argo_image_updater_sa      = true #name: argo-cd-image-updater
   additional_service_accounts          = [{
     name                 = "argo-cd-image-updater2"
     namespace            = "argocd"
@@ -54,6 +54,11 @@ module "eks" {
       instance_types : ["t3.medium"]
     }
   ]
+  additional_addons = {
+    vpc-cni = {
+        name = "vpc-cni",
+    }
+  }
 }
 ```
 
