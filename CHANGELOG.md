@@ -1,26 +1,28 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
+All notable changes to this module will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+## [1.0.5] - 2022-05-20
 
-## [Unreleased] - 2022-mm-dd
-
-Here we would have the update steps for 1.0.2 for people to follow.
+Here we would have the update steps for 1.0.5 for people to follow.
 
 ### Added
 
+- support nodegroup taint
+
 ### Changed
 
-### Fixed
+- decease delay before create bootstrao from 5m to 3m
+- nodegroup var from list to object
+- additional addons from list to object
+
 ## [1.0.4] - 2022-05-13
 
 Here we would have the update steps for 1.0.4 for people to follow.
 
 ### Added
 
-- support custom nodegroup
+- support custom nodegroup in public subnet
 
 ### Changed
 
