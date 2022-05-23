@@ -6,7 +6,7 @@ locals {
     existing_policy_arns = [try(aws_iam_policy.aws_lb_controller[0].arn, null)]
   }
   argo_image_updater_sa = {
-    name                 = "argo-cd-image-updater"
+    name                 = "argocd-image-updater"
     namespace = "argocd"
     existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
   }
