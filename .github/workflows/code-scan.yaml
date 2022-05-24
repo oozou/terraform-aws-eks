@@ -1,0 +1,16 @@
+name: code-scan
+
+# Controls when the workflow will run
+on: [push, pull_request]
+  
+jobs:
+
+
+  scan:
+    uses: poc-lycbrina/.github/.github/workflows/code-scan.yml@main
+    with:
+        SCAN-TYPE: IaC
+        SCAN-PATH: ./terraform
+    secrets:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
