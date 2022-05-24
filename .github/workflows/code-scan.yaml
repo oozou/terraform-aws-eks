@@ -10,6 +10,6 @@ jobs:
     uses: poc-lycbrina/.github/.github/workflows/code-scan.yml@main
     with:
         SCAN-TYPE: IaC
-        SCAN-PATH: ./terraform
+        SCAN-PATH: .
     secrets:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
