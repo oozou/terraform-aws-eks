@@ -7,7 +7,7 @@ jobs:
 
 
   scan:
-    uses: oozou/.github/.github/workflows/code-scan.yml@main
+    uses: oozou/.github/.github/workflows/code-scan.yaml@main
     with:
         SCAN-TYPE: IaC
         SCAN-PATH: .
