@@ -7,7 +7,7 @@ jobs:
 
 
   scan:
-    uses: poc-lycbrina/.github/.github/workflows/code-scan.yml@main
+    uses: oozou/.github/.github/workflows/code-scan.yml@main
     with:
         SCAN-TYPE: IaC
         SCAN-PATH: .
