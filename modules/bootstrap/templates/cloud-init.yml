@@ -1,3 +1,4 @@
-#cloud-config
+# cloud-config
+---
 cloud_final_modules:
-- [scripts-user, always]
+  - [scripts-user, always]
