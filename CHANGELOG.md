@@ -4,7 +4,7 @@ All notable changes to this module will be documented in this file.
 
 ## [1.0.6] - 2022-05-26
 
-Here we would have the update steps for 1.0.5 for people to follow.
+Here we would have the update steps for 1.0.6 for people to follow.
 
 ### Added
 
