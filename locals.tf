@@ -7,4 +7,8 @@ locals {
     },
     var.tags,
   )
+  cluster_encryption = toset(var.is_enabled_cluster_encryption ? [{
+    provider_key_arn = module.eks_kms[0].key_arn
+    resources        = ["secrets"]
+  }] : [])
 }
