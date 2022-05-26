@@ -1,5 +1,5 @@
 resource "time_sleep" "delay_for_create_bootstrap" {
-  create_duration = "3m"
+  create_duration = "1m"
   depends_on = [
     data.template_cloudinit_config.user_data
   ]

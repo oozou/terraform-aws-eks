@@ -67,11 +67,56 @@ module "eks" {
 
 ## Addons
 
+### vpc-cni
+
+#### prerequisites
+
 `If you are using vpc-cni addons you need to create them first create nodegroup and run below command`
 
 ```bash
 kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true #for enable interface /28
 ```
+
+#### usage
+
+```terraform
+additional_addons = {
+  vpc-cni = {
+    name = "vpc-cni",
+  }
+}
+```
+
+### AWS Distro for OpenTelemetry (ADOT)
+
+#### prerequisites
+
+- cert-manager
+
+#### usage
+
+##### prepare RBAC
+
+```bash
+kubectl apply -f https://amazon-eks.s3.amazonaws.com/docs/addons-otel-permissions.yaml
+```
+
+##### config terraform variables
+
+```terraform
+additional_service_accounts = [{
+  name                 = "otel"
+  namespace            = "opentelemetry-operator-system"
+  existing_policy_arns = ["arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy", "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess", "arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess"]
+}]
+
+additional_addons = {
+  adot = {
+    name    = "adot",
+    version = "v0.45.0-eksbuild.1"
+    existing_policy_arns = ["arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"]
+  }
+}
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
