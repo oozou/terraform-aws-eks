@@ -9,8 +9,8 @@ jobs:
   scan:
     uses: oozou/.github/.github/workflows/code-scan.yaml@main
     with:
-        SCAN-TYPE: IaC
-        SCAN-PATH: .
+        SCAN_TYPE: IAC
+        SCAN_INCLUDE: .
     secrets:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: "https://sonarqube.oozou-internal.waruwat.com"
