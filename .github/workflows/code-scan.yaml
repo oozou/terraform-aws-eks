@@ -1,15 +1,15 @@
 name: code-scan
 
 # Controls when the workflow will run
-on: 
+on:
   push:
-    branches:    
+    branches:
       - 'main'
   pull_request:
-    branches:    
+    branches:
       - 'main'
   workflow_dispatch:
-  
+
 jobs:
   scan:
     uses: oozou/.github/.github/workflows/code-scan.yaml@main
