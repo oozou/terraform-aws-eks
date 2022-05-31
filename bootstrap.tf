@@ -13,7 +13,4 @@ module "bootstrap" {
   prefix              = var.prefix
   tags                = var.tags
   environment         = var.environment
-  depends_on = [
-    aws_eks_cluster.this
-  ]
 }

@@ -2,6 +2,31 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.6] - 2022-05-26
+
+Here we would have the update steps for 1.0.6 for people to follow.
+
+### Added
+
+- new resource
+  - kms
+  - cloudwatch
+
+- new variables
+  - `enabled_cluster_log_types`
+  - `cluster_log_retention_in_days`
+  - `is_enabled_cluster_encryption`
+
+- new output
+  - `kms_key_arn`
+  - `kms_key_id`
+  - `cluster_security_group_id`
+  - `cloudwatch_log_group_arn`
+
+### Changed
+
+- remove depend_on from bootstrap and oidc because it will destroy everychange but not necessary
+
 ## [1.0.5] - 2022-05-20
 
 Here we would have the update steps for 1.0.5 for people to follow.

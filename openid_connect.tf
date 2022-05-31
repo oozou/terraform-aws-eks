@@ -10,7 +10,4 @@ module "openid_connect" {
   is_create_argo_image_updater_sa      = var.is_create_argo_image_updater_sa
   is_create_cluster_autoscaler_sa      = var.is_create_cluster_autoscaler_sa
   additional_service_accounts          = var.additional_service_accounts
-  depends_on = [
-    aws_eks_cluster.this
-  ]
 }

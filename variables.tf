@@ -47,26 +47,43 @@ variable "eks_version" {
   default     = null
 }
 
+variable "enabled_cluster_log_types" {
+  description = "List of the desired control plane logging to enable" #https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html
+  type        = list(string)
+  default     = []
+}
+
+variable "cluster_log_retention_in_days" {
+  description = "Specifies the number of days you want to retain log events Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653, and 0. If you select 0, the events in the log group are always retained and never expire"
+  type        = number
+  default     = 0
+}
+
+variable "is_enabled_cluster_encryption" {
+  description = "if enable will create kms and config eks with kms key to encrpt secret"
+  type        = bool
+  default     = false
+}
 
 variable "node_groups" {
   description = " EKS Node Group for create EC2 as worker node"
   type        = map(any)
   default = {
     default = {
-    # replace_subnets : use same subnet with cluster
-    desired_size : 1,
-    max_size : 1,
-    min_size : 1,
-    max_unavailable : 1,
-    ami_type : "AL2_x86_64"
-    is_spot_instances : false
-    disk_size : 20,
-    taint : {}
-    labels : {
-      default_nodegroup_labels = "default-nodegroup"
-    }
-    instance_types : ["t3.medium"]
-  }}
+      # replace_subnets : use same subnet with cluster
+      desired_size : 1,
+      max_size : 1,
+      min_size : 1,
+      max_unavailable : 1,
+      ami_type : "AL2_x86_64"
+      is_spot_instances : false
+      disk_size : 20,
+      taint : {}
+      labels : {
+        default_nodegroup_labels = "default-nodegroup"
+      }
+      instance_types : ["t3.medium"]
+  } }
 }
 
 variable "aws_account" {
