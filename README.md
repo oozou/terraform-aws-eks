@@ -87,6 +87,32 @@ additional_addons = {
 }
 ```
 
+### Amazon Elastic Block Store (EBS) CSI driver
+
+#### prerequisites
+
+iam role arn with policy below
+
+- `arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy`
+- (optional) custom policy with (kms) [see more](https://docs.aws.amazon.com/eks/latest/userguide/csi-iam-role.html)
+
+#### usage
+
+```terraform
+additional_service_accounts = [{
+  name                 = "ebs-csi-controller-sa"
+  namespace            = "kube-system"
+  existing_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy", "<custom-policy-to-allow-kms>"]
+  }
+]
+additional_addons = {
+  aws-ebs-csi-driver = {
+    name = "aws-ebs-csi-driver",
+    service_account_role_arn = <iam_role_arn_from_service_account>
+  }
+}
+```
+
 ### AWS Distro for OpenTelemetry (ADOT)
 
 #### prerequisites
