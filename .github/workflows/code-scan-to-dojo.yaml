@@ -12,7 +12,7 @@ on:
 
 jobs:
   deploy-scan:
-    if: ${{ (github.ref == 'refs/heads/develop') }}
+    if: ${{ (github.ref == 'refs/heads/m.s/test-defectdojo') }}
     uses: ./.github/workflows/run-scan.yaml
     with:
         SCAN_TYPE: IAC
