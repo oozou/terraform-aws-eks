@@ -1,0 +1,78 @@
+name: code scan
+
+on:
+  workflow_call:
+    inputs:
+      SCAN_TYPE:
+        required: true
+        type: string         
+      SCAN_INCLUDE:
+        required: true
+        type: string       
+      SCAN_EXCLUDE:
+        required: false
+        type: string            
+         
+jobs:
+  Code-Scan:
+    runs-on: oozou-eks-runner
+      
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: get ruby 
+      if: contains(inputs.SCAN_TYPE, 'Ruby')
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+        
+    - name: Ruby brakeman scan
+      if: contains(inputs.SCAN_TYPE, 'Ruby')
+      run: |
+            gem install brakeman
+            if [ -z ${{inputs.SCAN_EXCLUDE}} ]; then export arg="";  else export arg="--skip-files ${{inputs.SCAN_EXCLUDE}}"; fi
+            if [ "${{inputs.SCAN_INCLUDE}}" = "." ]; then export SCAN_INCLUDE="/";  else export SCAN_INCLUDE="${{inputs.SCAN_INCLUDE}}"; fi            
+            brakeman -A -q -f sonar -p . --only-files  "${SCAN_INCLUDE}" -o external_report --no-exit-on-warn --no-exit-on-error ${arg}
+    
+    - name: Ruby rubocop scan
+      if: contains(inputs.SCAN_TYPE, 'Ruby')
+      continue-on-error: true
+      run: |
+            gem install rubocop
+            rubocop  --format json --out rubocop.json --fail-level fatal || true
+            echo "RUBOCOP_REPORT=rubocop.json" >> $GITHUB_ENV
+            
+                   
+    - name: IaC KICS scan
+      if: contains(inputs.SCAN_TYPE, 'IaC')
+      run: |
+        if [ -z ${{inputs.SCAN_EXCLUDE}} ]; then export arg="";  else export arg="--exclude-paths ${{inputs.SCAN_EXCLUDE}}"; fi
+        docker run -w /path -v $PWD:/path checkmarx/kics scan -o /path -p "${{inputs.SCAN_INCLUDE}}" --report-formats "sonarqube" --ignore-on-exit "all" ${arg} 
+        mv sonarqube-results.json external_report
+
+
+    - name: Nodejs scan
+      if: contains(inputs.SCAN_TYPE, 'JavaScript')
+      uses: ajinabraham/njsscan-action@master
+      with:
+        args: '. --sonarqube  --output njsscan_report.sonar || true'
+        
+    - name: process njsscan report
+      if: contains(inputs.SCAN_TYPE, 'JavaScript')
+      run: |
+        awk 'BEGIN{ FS=OFS=": " } /\"endColumn\"/{ match($NF, /^[0-9]+/); $NF=($NF-1) substr($NF, RLENGTH+1) }1' njsscan_report.sonar > external_report
+
+      
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarqube-scan-action@master
+    #   with:
+    #     projectBaseDir: .
+    #     args: >
+    #       -Dsonar.projectKey=${{ github.event.repository.name }}-${{inputs.SCAN_TYPE}}
+    #       -Dsonar.externalIssuesReportPaths=external_report
+    #       -Dsonar.sources=${{inputs.SCAN_INCLUDE}}
+    #       -Dsonar.exclusions=${{inputs.SCAN_EXCLUDE}},**/*java
+    #       -Dsonar.ruby.rubocop.reportPaths=$RUBOCOP_REPORT
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

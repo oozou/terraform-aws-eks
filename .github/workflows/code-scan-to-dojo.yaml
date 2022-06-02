@@ -1,0 +1,33 @@
+name: code-scan
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - 'm.s/test-defectdojo'
+  pull_request:
+    types:
+      - labeled
+  workflow_dispatch:
+
+jobs:
+  deploy-scan:
+    if: ${{ (github.ref == 'refs/heads/develop') }}
+    with:
+        SCAN_TYPE: IAC
+        SCAN_INCLUDE: .
+    secrets: inherit
+  scan-by-labels:
+    if: ${{ (contains(github.event.pull_request.labels.*.name, 'trigger-scan')) }}
+    uses: ./.github/workflows/run-scan.yaml
+    with:
+        SCAN_TYPE: IAC
+        SCAN_INCLUDE: .
+    secrets: inherit
+  remove_label_if_exists:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'trigger-scan') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        with:
+          labels: trigger-scan
