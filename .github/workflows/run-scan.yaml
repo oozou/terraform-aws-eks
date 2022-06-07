@@ -19,6 +19,9 @@ jobs:
       
     steps:
     - uses: actions/checkout@v2
+
+    - name: Add SHORT_SHA env property with commit short sha
+      run: echo "SHORT_SHA=`echo ${{ steps.get-commit-sha.outputs.sha }} | cut -c1-8`" >> $GITHUB_ENV
     
     - name: get ruby 
       if: contains(inputs.SCAN_TYPE, 'Ruby')
