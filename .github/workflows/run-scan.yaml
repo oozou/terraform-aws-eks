@@ -63,7 +63,35 @@ jobs:
       run: |
         awk 'BEGIN{ FS=OFS=": " } /\"endColumn\"/{ match($NF, /^[0-9]+/); $NF=($NF-1) substr($NF, RLENGTH+1) }1' njsscan_report.sonar > external_report
 
-      
+
+    - name: Prepare dojo ENV
+      run: |
+        cat << EOF > .github/workflows/dojo-env.ini
+        [server]
+        url = https://defectdojo.devops.team.oozou.com/api/v2
+        api_key = "${{ secrets.DOJO_API_KEY }}"
+        
+        [product]
+        product_name = terraform-aws-eks
+        description = terraform-aws-eks
+        product_type = 1
+        
+        [engagement]
+        engagement_name = terraform-aws-eks-${{ steps.get-commit-sha.outputs.sha }}
+        commit_hash = ${{ steps.get-commit-sha.outputs.sha }}
+        branch = develop
+        
+        [scan]
+        scan_type = KICS Scan
+        file_path = results.json
+        EOF
+
+    - name: Upload Result to Dojo
+      run: |
+        python --version
+        python .github/workflows/upload-to-dojo.py
+        
+        
     # - name: SonarQube Scan
     #   uses: sonarsource/sonarqube-scan-action@master
     #   with:
