@@ -25,7 +25,7 @@ jobs:
         MERGE_COMMIT_SHA: ${{ github.sha }}
         PR_LATEST_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
       run: echo "::set-output name=sha::${PR_LATEST_COMMIT_SHA:-$MERGE_COMMIT_SHA}"
-      
+
     - uses: actions/checkout@v2
 
     - name: Add SHORT_SHA env property with commit short sha
@@ -87,6 +87,7 @@ jobs:
         product_type = 1
         
         [engagement]
+        repo = $GITHUB_REPOSITORY
         engagement_name = terraform-aws-eks-${{ steps.get-commit-sha.outputs.sha }}
         commit_hash = ${{ steps.get-commit-sha.outputs.sha }}
         branch = develop
