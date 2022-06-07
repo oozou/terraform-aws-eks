@@ -83,7 +83,7 @@ jobs:
         
         [scan]
         scan_type = KICS Scan
-        file_path = results.json
+        file_path = external_report/results.json
         EOF
 
     - name: Upload Result to Dojo
