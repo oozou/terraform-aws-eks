@@ -69,7 +69,7 @@ jobs:
         cat << EOF > .github/workflows/dojo-env.ini
         [server]
         url = https://defectdojo.devops.team.oozou.com/api/v2
-        api_key = "${{ secrets.DOJO_API_KEY }}"
+        api_key = ${{ secrets.DOJO_API_KEY }}
         
         [product]
         product_name = terraform-aws-eks
