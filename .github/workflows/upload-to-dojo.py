@@ -36,7 +36,7 @@ def create_product(host,api_key,product_name,product_type,description):
 
     return r.status_code, r.text
 
-def create_engagement(host,api_key,name,product_id,commit_hash,branch_tag):
+def create_engagement(host,api_key,name,product_id,commit_hash,branch_tag,source_code_management_uri):
     print("\n==============Create Engagement================")
     headers = dict()
     json = dict()
@@ -55,6 +55,7 @@ def create_engagement(host,api_key,name,product_id,commit_hash,branch_tag):
     json['deduplication_on_engagement'] = True
     json['source_code_management_uri'] = ""
     json['engagement_type'] = "CI/CD"
+    json['source_code_management_uri'] = source_code_management_uri
 
     print(json)
     r = requests.post(host+"/engagements/", headers=headers, verify=True, json=json)
@@ -103,6 +104,7 @@ product_name = config['product']['product_name']
 description = config['product']['description']
 product_type = config['product']['product_type']
 #
+source_code_management_uri = config['engagement']['source_code_management_uri']
 engagement_name = config['engagement']['engagement_name']
 commit_hash = config['engagement']['commit_hash']
 branch = config['engagement']['branch']
@@ -133,7 +135,7 @@ else:
     product_id = result['id']
 print(product_id)
 
-status_code, result = create_engagement(url,api_key,engagement_name,product_id,commit_hash,branch)
+status_code, result = create_engagement(url,api_key,engagement_name,product_id,commit_hash,branch,source_code_management_uri)
 result = json.loads(result)
 engagement_id = result['id']
 print(engagement_id)
