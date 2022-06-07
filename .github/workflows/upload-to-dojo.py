@@ -94,7 +94,7 @@ product_id = None
 
 # Read config file
 config = configparser.ConfigParser()
-config.read('dojo-env.ini')
+config.read('.github/workflows/dojo-env.ini')
 
 url = config['server']['url']
 api_key = config['server']['api_key']
