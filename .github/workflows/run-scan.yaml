@@ -18,6 +18,14 @@ jobs:
     runs-on: oozou-eks-runner
       
     steps:
+    - name: Get the correct latest commit sha
+      id: get-commit-sha
+      env:
+        # https://stackoverflow.com/a/61035010
+        MERGE_COMMIT_SHA: ${{ github.sha }}
+        PR_LATEST_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+      run: echo "::set-output name=sha::${PR_LATEST_COMMIT_SHA:-$MERGE_COMMIT_SHA}"
+      
     - uses: actions/checkout@v2
 
     - name: Add SHORT_SHA env property with commit short sha
