@@ -60,6 +60,7 @@ jobs:
         if [ -z ${{inputs.SCAN_EXCLUDE}} ]; then export arg="";  else export arg="--exclude-paths ${{inputs.SCAN_EXCLUDE}}"; fi
         docker run -w /path -v $PWD:/path checkmarx/kics scan -o /path -p "${{inputs.SCAN_INCLUDE}}" --report-formats "json" --ignore-on-exit "all" ${arg} 
         ls -lart
+        echo "SCAN_TYPE_DOJO=$(echo 'KICS Scan')" >> $GITHUB_ENV
 
 
     - name: Nodejs scan
@@ -93,7 +94,7 @@ jobs:
         branch = ${{ github.head_ref || github.ref_name }}
         
         [scan]
-        scan_type = KICS Scan
+        scan_type = ${{ env.SCAN_TYPE_DOJO }}
         file_path = results.json
         EOF
 
