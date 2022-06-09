@@ -82,15 +82,15 @@ jobs:
         api_key = ${{ secrets.DOJO_API_KEY }}
         
         [product]
-        product_name = terraform-aws-eks
-        description = terraform-aws-eks
+        product_name = ${{ github.event.repository.name }}-${{inputs.SCAN_TYPE}}
+        description = ${{ github.event.repository.name }}-${{inputs.SCAN_TYPE}}
         product_type = 1
         
         [engagement]
         source_code_management_uri = ${{ github.server_url }}/${{ github.repository }}/blob/${{ steps.get-commit-sha.outputs.sha }}
         engagement_name = terraform-aws-eks-${{ steps.get-commit-sha.outputs.sha }}
         commit_hash = ${{ steps.get-commit-sha.outputs.sha }}
-        branch = develop
+        branch = ${{ github.head_ref || github.ref_name }}
         
         [scan]
         scan_type = KICS Scan
@@ -101,18 +101,3 @@ jobs:
       run: |
         python --version
         python .github/workflows/upload-to-dojo.py
-        
-        
-    # - name: SonarQube Scan
-    #   uses: sonarsource/sonarqube-scan-action@master
-    #   with:
-    #     projectBaseDir: .
-    #     args: >
-    #       -Dsonar.projectKey=${{ github.event.repository.name }}-${{inputs.SCAN_TYPE}}
-    #       -Dsonar.externalIssuesReportPaths=external_report
-    #       -Dsonar.sources=${{inputs.SCAN_INCLUDE}}
-    #       -Dsonar.exclusions=${{inputs.SCAN_EXCLUDE}},**/*java
-    #       -Dsonar.ruby.rubocop.reportPaths=$RUBOCOP_REPORT
-    #   env:
-    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
