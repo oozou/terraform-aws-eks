@@ -13,14 +13,14 @@ on:
 jobs:
   deploy-scan:
     if: ${{ (github.ref == 'refs/heads/m.s/test-defectdojo') }}
-    uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@develop
+    uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@feat/dejo
     with:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
     secrets: inherit
   scan-by-labels:
     if: ${{ (contains(github.event.pull_request.labels.*.name, 'trigger-scan')) }}
-    uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@develop
+    uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@feat/dejo
     with:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
