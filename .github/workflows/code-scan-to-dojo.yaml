@@ -11,6 +11,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  preflight:
+    runs-on: oozou-eks-runner
+    steps:
+    - name: Get Scripts
+      run: |
+           curl https://raw.githubusercontent.com/oozou/.github/develop/.github/workflows/upload-to-dojo.py -o .github/workflows/upload-to-dojo.py
   deploy-scan:
     if: ${{ (github.ref == 'refs/heads/m.s/test-defectdojo') }}
     uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@develop
