@@ -17,14 +17,18 @@ jobs:
     with:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
-    secrets: inherit
+    secrets:
+      DOJO_URL: ${{ secrets.DOJO_URL }}
+      DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
   scan-by-labels:
     if: ${{ (contains(github.event.pull_request.labels.*.name, 'trigger-scan')) }}
     uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@dojo
     with:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
-    secrets: inherit
+    secrets:
+      DOJO_URL: ${{ secrets.DOJO_URL }}
+      DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
   remove_label_if_exists:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'trigger-scan') }}
     runs-on: ubuntu-latest
