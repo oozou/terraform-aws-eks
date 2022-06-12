@@ -36,25 +36,27 @@ module "eks" {
     existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
   }]
   node_groups = {
-    custom = {
-      name : "default-spot",
-      replace_subnets : ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
-      desired_size : 1,
-      max_size : 1,
-      min_size : 1,
-      max_unavailable : 1,
-      ami_type : "AL2_x86_64"
-      is_spot_instances : true
-      disk_size : 20
-      taint : [{
-        key : "dedicated"
-        value : "gpuGroup"
-        effect : "NO_SCHEDULE"
+    default = {
+      # replace_subnets : ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
+      desired_size = 1,
+      max_size = 1,
+      min_size = 1,
+      max_unavailable = 1,
+      ami_type = "AL2_x86_64"
+      is_spot_instances = false
+      disk_size = null
+      taint = [{
+        key = "dedicated"
+        value = "gpuGroup"
+        effect = "NO_SCHEDULE"
       }]
-      labels : {
+      labels = {
         default_nodegroup_labels = "default-nodegroup"
       }
-      instance_types : ["t3.medium"]
+      is_create_launch_template = true
+      instance_types = ["t3.medium"]
+      pre_bootstrap_user_data = "sysctl -w net.core.somaxconn='32767' net.ipv4.tcp_max_syn_backlog='32767' && contents=\"$(jq '.allowedUnsafeSysctls=[\"net.*\"]' /etc/kubernetes/kubelet/kubelet-config.json)\" && echo -E \"$${contents}\" > /etc/kubernetes/kubelet/kubelet-config.json"
+      bootstrap_extra_args = ""
     }
   }
   additional_addons = {

@@ -2,6 +2,21 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.7] - 2022-06-13
+
+Here we would have the update steps for 1.0.7 for people to follow.
+
+### Added
+
+- new resource
+  - aws_launch_template
+
+- new config for nodegroup variables (optional)
+
+### Changed
+
+- move nodegroup from nodegroup.tf to module (no change any variable)
+
 ## [1.0.6] - 2022-05-26
 
 Here we would have the update steps for 1.0.6 for people to follow.
