@@ -36,4 +36,5 @@ jobs:
       - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
           labels: trigger-scan
+          
 
