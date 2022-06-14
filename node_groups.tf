@@ -19,7 +19,7 @@ module "nodegroup" {
   min_size     = lookup(each.value, "min_size", 1)
 
   max_unavailable = lookup(each.value, "max_unavailable", 1)
-  taint           = lookup(each.value, "taint", {})
+  taint           = lookup(each.value, "taint", [])
 
 
   is_create_launch_template              = lookup(each.value, "is_create_launch_template", false)
