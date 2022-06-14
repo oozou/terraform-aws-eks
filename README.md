@@ -67,6 +67,14 @@ module "eks" {
 }
 ```
 
+## Increase Limit of tcp, web socket, config kubelet for allow sysctl, 
+
+default net.core.somaxconn = 4096, tcp_max_syn_backlog 512
+
+```terraform
+pre_bootstrap_user_data = "sysctl -w net.core.somaxconn='32767' net.ipv4.tcp_max_syn_backlog='32767' && contents=\"$(jq '.allowedUnsafeSysctls=[\"net.*\"]' /etc/kubernetes/kubelet/kubelet-config.json)\" && echo -E \"$${contents}\" > /etc/kubernetes/kubelet/kubelet-config.json"
+```
+
 ## Addons
 
 ### vpc-cni
