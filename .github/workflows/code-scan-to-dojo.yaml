@@ -17,6 +17,7 @@ jobs:
     with:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
+        DOJO_REUPLOAD: true
     secrets:
       DOJO_URL: ${{ secrets.DOJO_URL }}
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
@@ -26,6 +27,7 @@ jobs:
     with:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
+        DOJO_REUPLOAD: true
     secrets:
       DOJO_URL: ${{ secrets.DOJO_URL }}
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
