@@ -18,7 +18,7 @@ jobs:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
         DOJO_REUPLOAD: true
-        DOJO_AUTO_ASSIGN: false
+        DOJO_AUTO_ASSIGN: true
         DOJO_ASSIGNEE: m.s@oozou.com
     secrets:
       DOJO_URL: ${{ secrets.DOJO_URL }}
@@ -32,7 +32,7 @@ jobs:
         SCAN_TYPE: IAC
         SCAN_INCLUDE: .
         DOJO_REUPLOAD: true
-        DOJO_AUTO_ASSIGN: false
+        DOJO_AUTO_ASSIGN: true
         DOJO_ASSIGNEE: m.s@oozou.com
     secrets:
       DOJO_URL: ${{ secrets.DOJO_URL }}
