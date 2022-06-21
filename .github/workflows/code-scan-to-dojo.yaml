@@ -24,7 +24,7 @@ jobs:
       DOJO_URL: ${{ secrets.DOJO_URL }}
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_CH: "#test"
+      SLACK_CH: "#lambda-test"
   scan-by-labels:
     if: ${{ (contains(github.event.pull_request.labels.*.name, 'trigger-scan')) }}
     uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@dojo
@@ -38,7 +38,7 @@ jobs:
       DOJO_URL: ${{ secrets.DOJO_URL }}
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_CH: "#test"
+      SLACK_CH: "#lambda-test"
   remove_label_if_exists:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'trigger-scan') }}
     runs-on: ubuntu-latest
