@@ -2,6 +2,55 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.7] - 2022-06-13
+
+Here we would have the update steps for 1.0.7 for people to follow.
+
+### Added
+
+- new resource
+  - aws_launch_template
+
+
+- new variables
+  - `bootstrap_ami`
+
+- new config for nodegroup variables (optional)
+  - `platform`
+  - `is_create_launch_template`
+  - `enable_bootstrap_user_data`
+  - `cluster_service_ipv4_cidr`
+  - `pre_bootstrap_user_data`
+  - `post_bootstrap_user_data`
+  - `bootstrap_extra_args`
+  - `ebs_optimized`
+  - `ami_id`
+  - `key_name`
+  - `launch_template_default_version`
+  - `update_launch_template_default_version`
+  - `disable_api_termination`
+  - `kernel_id`
+  - `ram_disk_id`
+  - `block_device_mappings`
+  - `capacity_reservation_specification`
+  - `cpu_options`
+  - `credit_specification`
+  - `elastic_gpu_specifications`
+  - `elastic_inference_accelerator`
+  - `enclave_options`
+  - `instance_market_options`
+  - `license_specifications`
+  - `metadata_options`
+  - `enable_monitoring`
+  - `network_interfaces`
+  - `placement`
+  - `launch_template_tags`
+  - ``
+
+### Changed
+
+- move nodegroup from nodegroup.tf to module (no change any variable)
+
 ## [1.0.6] - 2022-05-26
 
 Here we would have the update steps for 1.0.6 for people to follow.

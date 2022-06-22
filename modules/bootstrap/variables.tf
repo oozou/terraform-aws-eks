@@ -13,6 +13,11 @@ variable "subnet_id" {
   type        = string
 }
 
+variable "ami" {
+  type        = string
+  description = "AMI for ec2 bootstrap module"
+}
+
 variable "tags" {
   description = "Tag for a resource taht create by this component"
   type        = map(string)

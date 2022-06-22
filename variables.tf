@@ -174,3 +174,9 @@ variable "is_create_bootstrap" {
   type        = bool
   default     = true
 }
+
+variable "bootstrap_ami" {
+  type        = string
+  description = "AMI for ec2 bootstrap module"
+  default     = ""
+}

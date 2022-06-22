@@ -10,7 +10,7 @@ module "ec2" {
   prefix       = var.prefix
   environment  = var.environment
   name         = "eks-bootstrap"
-  ami          = data.aws_ami.ubuntu.id
+  ami          = var.ami != "" ? var.ami : data.aws_ami.ubuntu.id
   vpc_id       = var.vpc_id
   subnet_id    = var.subnet_id
   is_batch_run = true
