@@ -26,7 +26,6 @@ jobs:
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_CH: "#lambda-test"
-      SEND_SLACK_NOTIFICATION: true
   scan-by-labels:
     if: ${{ (contains(github.event.pull_request.labels.*.name, 'trigger-scan')) }}
     uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@refactor/dojo-pipeline
