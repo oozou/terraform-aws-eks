@@ -20,6 +20,7 @@ jobs:
         DOJO_REUPLOAD: true
         DOJO_AUTO_ASSIGN: true
         DOJO_ASSIGNEE: m.s@oozou.com
+        SEND_SLACK_NOTIFICATION: true
     secrets:
       DOJO_URL: ${{ secrets.DOJO_URL }}
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
@@ -35,12 +36,12 @@ jobs:
         DOJO_REUPLOAD: true
         DOJO_AUTO_ASSIGN: true
         DOJO_ASSIGNEE: m.s@oozou.com
+        SEND_SLACK_NOTIFICATION: true
     secrets:
       DOJO_URL: ${{ secrets.DOJO_URL }}
       DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_CH: "#lambda-test"
-      SEND_SLACK_NOTIFICATION: true
   remove_label_if_exists:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'trigger-scan') }}
     runs-on: ubuntu-latest
