@@ -96,12 +96,11 @@ EOT
 data "template_file" "scripts" {
   template = file("${path.module}/templates/scripts.sh")
   vars = {
-    aws_access_key_id     = var.aws_account.access_key
-    aws_secret_access_key = var.aws_account.secret_key
-    region                = var.aws_account.region
-    cluster_name          = var.cluster_name
-    is_config_aws_auth    = var.is_config_aws_auth
-    eks_manifest_file     = data.template_file.eks_manifest.rendered
+    region                   = var.aws_account.region
+    cluster_name             = var.cluster_name
+    eks_bootstrap_secret_arn = aws_secretsmanager_secret.terraform_key.arn
+    is_config_aws_auth       = var.is_config_aws_auth
+    eks_manifest_file        = data.template_file.eks_manifest.rendered
   }
 }
 

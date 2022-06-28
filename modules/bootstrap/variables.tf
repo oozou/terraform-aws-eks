@@ -69,3 +69,9 @@ variable "vpc_id" {
   description = "vpc id for create secgroup"
   type        = string
 }
+
+variable "kms_key_id" {
+  description = "ARN or Id of the AWS KMS key to be used to encrypt the secret values in the versions stored in this secret. If you don't specify this value, then Secrets Manager defaults to using the AWS account's default KMS key (the one named aws/secretsmanager"
+  type        = string
+  default     = ""
+}
