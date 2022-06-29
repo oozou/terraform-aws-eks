@@ -8,17 +8,17 @@ Terraform module with create EKS resources on AWS.
 
 ```terraform
 module "eks" {
-  source                        = "git::ssh://git@github.com/<repository>/terraform-aws-eks.git?ref=v1.0.0"
-  vpc_id                        = "vpc-xxx"
-  private_subnet_ids            = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
-  prefix                        = "customer"
-  name                          = "test-cluter"
-  environment                   = "dev"
-  is_endpoint_private_access    = true
-  is_endpoint_public_access     = false
-  enabled_cluster_log_types     = ["api", "audit"]
-  cluster_log_retention_in_days = 0
-  is_enabled_cluster_encryption = true
+  source                           = "git::ssh://git@github.com/<repository>/terraform-aws-eks.git?ref=v1.0.0"
+  vpc_id                           = "vpc-xxx"
+  private_subnet_ids               = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
+  prefix                           = "customer"
+  name                             = "test-cluter"
+  environment                      = "dev"
+  is_endpoint_private_access       = true
+  is_endpoint_public_access        = false
+  enabled_cluster_log_types        = ["api", "audit"]
+  cloudwatch_log_retention_in_days = 0
+  is_enabled_cluster_encryption    = true
   aws_account = {
     access_key = "xxx"
     region     = "ap-southeast-1"
