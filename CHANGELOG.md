@@ -2,6 +2,20 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.8] - 2022-06-29
+
+Here we would have the update steps for 1.0.8 for people to follow.
+
+### Added
+
+- new variables (Optional)
+  - `cloudwatch_log_kms_key_id`
+  - `cloudwatch_log_retention_in_days`
+
+### Changed
+
+- Rename `cluster_log_retention_in_days` to `cloudwatch_log_kms_key_id`
+
 ## [1.0.7] - 2022-06-13
 
 Here we would have the update steps for 1.0.7 for people to follow.
