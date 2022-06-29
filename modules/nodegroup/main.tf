@@ -12,7 +12,7 @@ resource "aws_eks_node_group" "this" {
   dynamic "launch_template" {
     for_each = var.is_create_launch_template ? [1] : []
     content {
-      id    = aws_launch_template.this[0].id
+      id      = module.launch_template[0].id
       version = "$Default"
     }
   }

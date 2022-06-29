@@ -2,7 +2,7 @@
 
 All notable changes to this module will be documented in this file.
 
-## [1.0.8] - 2022-06-28
+## [1.0.8] - 2022-06-30
 
 ### Added
 
@@ -11,6 +11,10 @@ All notable changes to this module will be documented in this file.
 
 - variables
   - `bootstrap_kms_key_id`
+
+### Changed
+
+- move launch template (nodegroup sub module) from resource to terraform-aws-launch-template module
 
 ## [1.0.7] - 2022-06-13
 

@@ -6,8 +6,7 @@ resource "time_sleep" "delay_for_create_bootstrap" {
 }
 
 module "ec2" {
-  source      = "git::ssh://git@github.com/oozou/terraform-aws-ec2-instance.git?ref=feat/default-profile-and-encrypt-ebs"
-#   source                    = "../../../terraform-aws-ec2-instance"
+  source                    = "git::ssh://git@github.com/oozou/terraform-aws-ec2-instance.git?ref=v1.0.4"
   prefix                    = var.prefix
   environment               = var.environment
   name                      = "eks-bootstrap"
