@@ -1,4 +1,4 @@
-name: code-scan
+name: code-scan-dojo
 
 # Controls when the workflow will run
 on:
