@@ -1,0 +1,52 @@
+name: code-scan-dojo
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - 'm.s/test-defectdojo'
+  pull_request:
+    types:
+      - labeled
+  workflow_dispatch:
+
+jobs:
+  deploy-scan:
+    if: ${{ (github.ref == 'refs/heads/m.s/test-defectdojo') }}
+    uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@aws-scan-pipeline
+    with:
+        SCAN_TYPE: IAC
+        SCAN_INCLUDE: .
+        DOJO_REUPLOAD: true
+        DOJO_AUTO_ASSIGN: true
+        DOJO_ASSIGNEE: brian@oozou.com
+        SEND_SLACK_NOTIFICATION: true
+    secrets:
+      DOJO_URL: ${{ secrets.DOJO_URL }}
+      DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_CH: "#notification-test"
+  scan-by-labels:
+    if: ${{ (contains(github.event.pull_request.labels.*.name, 'trigger-scan')) }}
+    uses: oozou/.github/.github/workflows/code-scan-dojo.yaml@aws-scan-pipeline
+    with:
+        SCAN_TYPE: IAC
+        SCAN_INCLUDE: .
+        DOJO_REUPLOAD: true
+        DOJO_AUTO_ASSIGN: true
+        DOJO_ASSIGNEE: m.s@oozou.com
+        SEND_SLACK_NOTIFICATION: true
+    secrets:
+      DOJO_URL: ${{ secrets.DOJO_URL }}
+      DOJO_API_KEY: ${{ secrets.DOJO_API_KEY }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_CH: "#notification-test"
+  remove_label_if_exists:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'trigger-scan') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        with:
+          labels: trigger-scan
+          
+
