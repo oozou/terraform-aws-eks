@@ -2,6 +2,23 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.9] - 2022-07-01
+
+Here we would have the update steps for 1.0.9 for people to follow.
+
+### Added
+
+- resources
+  - aws secretsmanager for store secret from bootstrap module
+
+- variables
+  - `bootstrap_kms_key_id`
+
+### Changed
+
+- move launch template (nodegroup sub module) from resource to terraform-aws-launch-template module
+- change version of ec2 module from `1.0.4` to `1.0.5` for support SSM
+
 ## [1.0.8] - 2022-06-29
 
 Here we would have the update steps for 1.0.8 for people to follow.

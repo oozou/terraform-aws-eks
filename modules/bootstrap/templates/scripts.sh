@@ -4,6 +4,7 @@ echo "starting cloud init script . . ."
 sudo su
 sudo apt-get update
 sudo apt install awscli -y
+sudo apt install jq -y
 
 # kubectl
 echo "install kubectl . . ."
@@ -19,16 +20,19 @@ sudo mkdir -p /opt/scripts
 
 # configure aws
 echo "config aws account . . ."
-aws configure set aws_access_key_id ${aws_access_key_id}
-aws configure set aws_secret_access_key ${aws_secret_access_key}
+aws configure set region ${region}
+credential=$(aws secretsmanager get-secret-value  --secret-id ${eks_bootstrap_secret_arn} --query SecretString --output text)
+aws_access_key_id=$(echo $credential | jq '.aws_access_key_id' | tr -d '"')
+aws_secret_access_key=$(echo $credential | jq '.aws_secret_access_key' | tr -d '"')
+export AWS_ACCESS_KEY_ID=$aws_access_key_id
+export AWS_SECRET_ACCESS_KEY=$aws_secret_access_key
 aws eks update-kubeconfig --region ${region} --name ${cluster_name}
-
 %{ if is_config_aws_auth }
 echo "config aws-auth . . ."
 sudo touch /opt/scripts/eks-manifest-file.yml
 sudo chmod 777 /opt/scripts/eks-manifest-file.yml
 sudo echo '${eks_manifest_file}' > /opt/scripts/eks-manifest-file.yml
-sudo kubectl apply -f /opt/scripts/eks-manifest-file.yml
+sudo AWS_ACCESS_KEY_ID=$aws_access_key_id AWS_SECRET_ACCESS_KEY=$aws_secret_access_key kubectl apply -f /opt/scripts/eks-manifest-file.yml
 %{ endif }
 
 sudo shutdown -h now

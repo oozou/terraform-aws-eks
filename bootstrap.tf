@@ -12,6 +12,7 @@ module "bootstrap" {
   vpc_id              = var.vpc_id
   is_config_aws_auth  = var.is_config_aws_auth
   prefix              = var.prefix
-  tags                = var.tags
   environment         = var.environment
+  kms_key_id          = var.bootstrap_kms_key_id
+  tags                = var.tags
 }

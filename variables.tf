@@ -181,6 +181,12 @@ variable "is_create_bootstrap" {
   default     = true
 }
 
+variable "bootstrap_kms_key_id" {
+  description = "ARN or Id of the AWS KMS key to be used to encrypt the secret values in the versions stored in bootstrap secret. If you don't specify this value, then Secrets Manager defaults to using the AWS account's default KMS key (the one named aws/secretsmanager"
+  type        = string
+  default     = ""
+}
+
 variable "bootstrap_ami" {
   type        = string
   description = "AMI for ec2 bootstrap module"
