@@ -4,7 +4,7 @@ All notable changes to this module will be documented in this file.
 
 ## [1.0.10] - 2022-07-12
 
-Here we would have the update steps for 1.0.10for people to follow.
+Here we would have the update steps for 1.0.10 for people to follow.
 
 ### Changed
 
