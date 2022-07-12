@@ -2,6 +2,14 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.10] - 2022-07-12
+
+Here we would have the update steps for 1.0.10 for people to follow.
+
+### Changed
+
+- change version of kms module from `0.0.2` to `1.0.0`
+
 ## [1.0.9] - 2022-07-01
 
 Here we would have the update steps for 1.0.9 for people to follow.

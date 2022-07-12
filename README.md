@@ -175,7 +175,7 @@ additional_addons = {
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_bootstrap"></a> [bootstrap](#module\_bootstrap) | ./modules/bootstrap | n/a |
-| <a name="module_eks_kms"></a> [eks\_kms](#module\_eks\_kms) | git@github.com:oozou/terraform-aws-kms-key.git | v0.0.2 |
+| <a name="module_eks_kms"></a> [eks\_kms](#module\_eks\_kms) | git@github.com:oozou/terraform-aws-kms-key.git | v1.0.0 |
 | <a name="module_nodegroup"></a> [nodegroup](#module\_nodegroup) | ./modules/nodegroup | n/a |
 | <a name="module_openid_connect"></a> [openid\_connect](#module\_openid\_connect) | ./modules/openid_connect_provider | n/a |
 
