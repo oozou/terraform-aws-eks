@@ -1,5 +1,5 @@
 locals {
-  prefix = "${var.prefix}-${var.environment}-${var.name}-nodegroup"
+  prefix = "${var.prefix}-${var.environment}"
   int_linux_default_user_data = var.platform == "linux" && (var.enable_bootstrap_user_data) ? templatefile(
     "${path.module}/templates/linux_user_data.tpl",
     {
