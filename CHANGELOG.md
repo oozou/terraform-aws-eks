@@ -2,6 +2,14 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.11] - 2022-07-18
+
+Here we would have the update steps for 1.0.11 for people to follow.
+
+### Changed
+
+- Change Naming of Nodegroup (remove duplicate name)
+
 ## [1.0.10] - 2022-07-12
 
 Here we would have the update steps for 1.0.10 for people to follow.
