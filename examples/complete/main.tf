@@ -1,8 +1,8 @@
 module "eks" {
   source                        = "../../"
   name                          = "eks"
-  prefix                        = local.prefix
-  environment                   = local.environment
+  prefix                        = var.prefix
+  environment                   = var.environment
   vpc_id                        = module.vpc.vpc_id
   subnets_ids                   = module.vpc.private_subnet_ids
   is_endpoint_private_access    = false
@@ -10,18 +10,17 @@ module "eks" {
   is_enabled_cluster_encryption = true
   node_groups = {
     default = {
-      desired_size      = 1,
-      max_size          = 1,
-      min_size          = 1,
-      is_spot_instances = true
-      disk_size         = null
-      taint = [{
-        key    = "dedicated"
-        value  = "gpuGroup"
-        effect = "NO_SCHEDULE"
-      }]
+      desired_size              = 1,
+      max_size                  = 1,
+      min_size                  = 1,
+      is_spot_instances         = true
+      disk_size                 = null
+      taint                     = []
       is_create_launch_template = true
-      instance_types            = ["t3a.small"]
+      instance_types            = ["t3.small"]
+      labels = {
+        test = true
+      }
     }
   }
   is_create_loadbalancer_controller_sa = true
@@ -41,5 +40,5 @@ module "eks" {
   admin_role_arns    = []
   dev_role_arns      = []
   readonly_role_arns = []
-  tags               = local.tags
+  tags               = var.custom_tags
 }
