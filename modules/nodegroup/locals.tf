@@ -1,5 +1,6 @@
 locals {
-  prefix = "${var.prefix}-${var.environment}"
+  prefix = format("%s-%s", var.prefix, var.environment)
+  name   = format("%s-%s-nodegroup", local.prefix, var.name)
   int_linux_default_user_data = var.platform == "linux" && (var.enable_bootstrap_user_data) ? templatefile(
     "${path.module}/templates/linux_user_data.tpl",
     {
@@ -21,5 +22,8 @@ locals {
       user_data = data.cloudinit_config.linux_eks_managed_node_group.rendered
     }
   }
+  labels = merge(
+    { "nodegroup" = local.name },
+  var.labels)
 }
 
