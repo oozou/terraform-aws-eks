@@ -2,6 +2,24 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.12] - 2022-07-27
+
+Here we would have the update steps for 1.0.12 for people to follow.
+
+### Added
+
+- support create before destroy nodegroup
+- new nodegroup labels `nodegroup=<nodegroup-name>`
+
+### Changed
+
+- Changed default nodegroup label
+  - from `eks.amazonaws.com/nodegroup=<nodegroup-name>` to `eks.amazonaws.com/nodegroup=<nodegroup-name><random-number>`
+    to support create_before_destroy (nodegroup lifecycle)
+
+- Variables
+  - `is_enabled_cluster_encryption` changed default value from `false` to `true`
+
 ## [1.0.11] - 2022-07-18
 
 Here we would have the update steps for 1.0.11 for people to follow.

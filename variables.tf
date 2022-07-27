@@ -68,7 +68,7 @@ variable "cloudwatch_log_kms_key_id" {
 variable "is_enabled_cluster_encryption" {
   description = "if enable will create kms and config eks with kms key to encrpt secret"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "node_groups" {
@@ -93,13 +93,18 @@ variable "node_groups" {
 }
 
 variable "aws_account" {
-  description = "AWS Credentials to access AWS by bootstrap module"
+  description = "AWS Credentials to access AWS by bootstrap module require if is_config_aws_auth = trues"
   type = object({
     region     = string,
     access_key = string,
     secret_key = string
   })
   sensitive = true
+  default = {
+    access_key = ""
+    region     = ""
+    secret_key = ""
+  }
 }
 
 variable "admin_role_arns" {

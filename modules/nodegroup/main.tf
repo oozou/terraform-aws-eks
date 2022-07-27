@@ -1,13 +1,13 @@
 resource "aws_eks_node_group" "this" {
-  cluster_name    = var.cluster_name
-  node_group_name = format("%s-%s-nodegroup", local.prefix, var.name)
-  node_role_arn   = var.node_role_arn
-  subnet_ids      = var.subnet_ids
-  instance_types  = var.instance_types
-  ami_type        = var.ami_type
-  capacity_type   = var.is_spot_instances ? "SPOT" : "ON_DEMAND"
-  disk_size       = var.disk_size
-  labels          = var.labels
+  cluster_name           = var.cluster_name
+  node_group_name_prefix = local.name
+  node_role_arn          = var.node_role_arn
+  subnet_ids             = var.subnet_ids
+  instance_types         = var.instance_types
+  ami_type               = var.ami_type
+  capacity_type          = var.is_spot_instances ? "SPOT" : "ON_DEMAND"
+  disk_size              = var.disk_size
+  labels                 = local.labels
 
   dynamic "launch_template" {
     for_each = var.is_create_launch_template ? [1] : []
@@ -28,7 +28,7 @@ resource "aws_eks_node_group" "this" {
   }
   tags = merge(
     {
-      "Name" = format("%s-%s-nodegroup", local.prefix, var.name)
+      "Name" = local.name
     },
     var.tags
   )
@@ -43,6 +43,7 @@ resource "aws_eks_node_group" "this" {
   }
 
   lifecycle {
-    ignore_changes = [scaling_config[0].desired_size] # for support scaling
+    ignore_changes        = [scaling_config[0].desired_size] # for support scaling
+    create_before_destroy = true
   }
 }

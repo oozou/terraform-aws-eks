@@ -4,69 +4,6 @@ Terraform module with create EKS resources on AWS.
 
 ![Design diagram](docs/design.png "Design diagram")
 
-## Usage
-
-```terraform
-module "eks" {
-  source                           = "git::ssh://git@github.com/<repository>/terraform-aws-eks.git?ref=v1.0.0"
-  vpc_id                           = "vpc-xxx"
-  private_subnet_ids               = ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
-  prefix                           = "customer"
-  name                             = "test-cluter"
-  environment                      = "dev"
-  is_endpoint_private_access       = true
-  is_endpoint_public_access        = false
-  enabled_cluster_log_types        = ["api", "audit"]
-  cloudwatch_log_retention_in_days = 0
-  is_enabled_cluster_encryption    = true
-  aws_account = {
-    access_key = "xxx"
-    region     = "ap-southeast-1"
-    secret_key = "xxx"
-  }
-  readonly_role_arns                   = ["arn:aws:iam::xxx:role/DEVOPS-ReadOnlyUserFederatedSSORole"]
-  dev_role_arns                        = ["arn:aws:iam::xxx:role/DEVOPS-DeveloperUserFederatedSSORole"]
-  admin_role_arns                      = ["arn:aws:iam::xxx:role/DEVOPS-PowerUserFederatedSSORole"]
-  is_config_aws_auth                   = true
-  is_create_loadbalancer_controller_sa = true #name: aws-load-balancer-controller
-  is_create_argo_image_updater_sa      = true #name: argo-cd-image-updater
-  additional_service_accounts          = [{
-    name                 = "argo-cd-image-updater2"
-    namespace            = "argocd"
-    existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
-  }]
-  node_groups = {
-    default = {
-      # replace_subnets : ["subnet-xxx", "subnet-xxx", "subnet-xxx"]
-      desired_size = 1,
-      max_size = 1,
-      min_size = 1,
-      max_unavailable = 1,
-      ami_type = "AL2_x86_64"
-      is_spot_instances = false
-      disk_size = null
-      taint = [{
-        key = "dedicated"
-        value = "gpuGroup"
-        effect = "NO_SCHEDULE"
-      }]
-      labels = {
-        default_nodegroup_labels = "default-nodegroup"
-      }
-      is_create_launch_template = true
-      instance_types = ["t3.medium"]
-      pre_bootstrap_user_data = "sysctl -w net.core.somaxconn='32767' net.ipv4.tcp_max_syn_backlog='32767' && contents=\"$(jq '.allowedUnsafeSysctls=[\"net.*\"]' /etc/kubernetes/kubelet/kubelet-config.json)\" && echo -E \"$${contents}\" > /etc/kubernetes/kubelet/kubelet-config.json"
-      bootstrap_extra_args = ""
-    }
-  }
-  additional_addons = {
-    vpc-cni = {
-        name = "vpc-cni",
-    }
-  }
-}
-```
-
 ## Increase Limit of tcp, web socket, config kubelet for allow sysctl, 
 
 default net.core.somaxconn = 4096, tcp_max_syn_backlog 512
@@ -168,7 +105,7 @@ additional_addons = {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.10.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
 
 ## Modules
 
@@ -208,7 +145,7 @@ additional_addons = {
 | <a name="input_additional_allow_cidr"></a> [additional\_allow\_cidr](#input\_additional\_allow\_cidr) | cidr for allow connection to eks cluster | `list(string)` | `[]` | no |
 | <a name="input_additional_service_accounts"></a> [additional\_service\_accounts](#input\_additional\_service\_accounts) | additional service account to access eks | <pre>list(object({<br>    name                 = string<br>    namespace            = string<br>    existing_policy_arns = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_admin_role_arns"></a> [admin\_role\_arns](#input\_admin\_role\_arns) | admin role arns for grant permission to aws-auth | `list(string)` | `[]` | no |
-| <a name="input_aws_account"></a> [aws\_account](#input\_aws\_account) | AWS Credentials to access AWS by bootstrap module | <pre>object({<br>    region     = string,<br>    access_key = string,<br>    secret_key = string<br>  })</pre> | n/a | yes |
+| <a name="input_aws_account"></a> [aws\_account](#input\_aws\_account) | AWS Credentials to access AWS by bootstrap module require if is\_config\_aws\_auth = trues | <pre>object({<br>    region     = string,<br>    access_key = string,<br>    secret_key = string<br>  })</pre> | <pre>{<br>  "access_key": "",<br>  "region": "",<br>  "secret_key": ""<br>}</pre> | no |
 | <a name="input_bootstrap_ami"></a> [bootstrap\_ami](#input\_bootstrap\_ami) | AMI for ec2 bootstrap module | `string` | `""` | no |
 | <a name="input_bootstrap_kms_key_id"></a> [bootstrap\_kms\_key\_id](#input\_bootstrap\_kms\_key\_id) | ARN or Id of the AWS KMS key to be used to encrypt the secret values in the versions stored in bootstrap secret. If you don't specify this value, then Secrets Manager defaults to using the AWS account's default KMS key (the one named aws/secretsmanager | `string` | `""` | no |
 | <a name="input_cloudwatch_log_kms_key_id"></a> [cloudwatch\_log\_kms\_key\_id](#input\_cloudwatch\_log\_kms\_key\_id) | The ARN for the KMS encryption key. | `string` | `null` | no |
@@ -223,7 +160,7 @@ additional_addons = {
 | <a name="input_is_create_cluster_autoscaler_sa"></a> [is\_create\_cluster\_autoscaler\_sa](#input\_is\_create\_cluster\_autoscaler\_sa) | is create default role with permission for eks cluster autoscaler | `bool` | `true` | no |
 | <a name="input_is_create_loadbalancer_controller_sa"></a> [is\_create\_loadbalancer\_controller\_sa](#input\_is\_create\_loadbalancer\_controller\_sa) | is create default role with permission for aws loadbalancer controller (name : aws-load-balancer-controller) | `bool` | `true` | no |
 | <a name="input_is_create_open_id_connect"></a> [is\_create\_open\_id\_connect](#input\_is\_create\_open\_id\_connect) | if true will create oidc provider and iam role for service account | `bool` | `true` | no |
-| <a name="input_is_enabled_cluster_encryption"></a> [is\_enabled\_cluster\_encryption](#input\_is\_enabled\_cluster\_encryption) | if enable will create kms and config eks with kms key to encrpt secret | `bool` | `false` | no |
+| <a name="input_is_enabled_cluster_encryption"></a> [is\_enabled\_cluster\_encryption](#input\_is\_enabled\_cluster\_encryption) | if enable will create kms and config eks with kms key to encrpt secret | `bool` | `true` | no |
 | <a name="input_is_endpoint_private_access"></a> [is\_endpoint\_private\_access](#input\_is\_endpoint\_private\_access) | Whether the Amazon EKS private API server endpoint is enabled | `bool` | `true` | no |
 | <a name="input_is_endpoint_public_access"></a> [is\_endpoint\_public\_access](#input\_is\_endpoint\_public\_access) | Whether the Amazon EKS public API server endpoint is enabled | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The Name of the EKS cluster | `string` | n/a | yes |
