@@ -2,6 +2,19 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.13] - 2022-08-11
+
+Here we would have the update steps for 1.0.13 for people to follow.
+
+### Added
+
+- add `arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore` policy to default nodegroup role
+  to support ssm service to node
+
+### Changed
+
+- change default variable for nodegroup `enable_monitoring` from `true` to `false`
+
 ## [1.0.12] - 2022-07-27
 
 Here we would have the update steps for 1.0.12 for people to follow.
