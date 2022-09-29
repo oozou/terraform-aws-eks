@@ -54,7 +54,7 @@ module "nodegroup" {
     http_tokens                 = "required"
     http_put_response_hop_limit = 2
   })
-  enable_monitoring    = lookup(each.value, "enable_monitoring", true)
+  enable_monitoring    = lookup(each.value, "enable_monitoring", false)
   network_interfaces   = lookup(each.value, "network_interfaces", [])
   placement            = lookup(each.value, "placement", null)
   launch_template_tags = lookup(each.value, "launch_template_tags", {})
