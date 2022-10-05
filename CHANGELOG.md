@@ -2,6 +2,14 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.14] - 2022-09-29
+
+Here we would have the update steps for 1.0.14 for people to follow.
+
+### Changed
+
+- public module
+
 ## [1.0.13] - 2022-08-11
 
 Here we would have the update steps for 1.0.13 for people to follow.
