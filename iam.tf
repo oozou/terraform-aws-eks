@@ -57,6 +57,11 @@ resource "aws_iam_role" "node_group_role" {
   )
 }
 
+resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_admin_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  role       = aws_iam_role.node_group_role.name
+}
+
 resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node_group_role.name
