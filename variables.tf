@@ -197,3 +197,9 @@ variable "bootstrap_ami" {
   description = "AMI for ec2 bootstrap module"
   default     = ""
 }
+
+variable "additional_eks_worker_node_role_policy_arns" {
+  description = "Additional IAM policies block, input as data source. Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+  type        = list(string)
+  default     = []
+}
