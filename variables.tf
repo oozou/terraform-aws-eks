@@ -197,3 +197,10 @@ variable "bootstrap_ami" {
   description = "AMI for ec2 bootstrap module"
   default     = ""
 }
+
+variable "additional_worker_polices" {
+  description = "Additional IAM policies block, input as data source or json. Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document. Bucket Policy Statements can be overriden by the statement with the same sid from the latest policy."
+  type        = list(string)
+  default     = []
+}
+
