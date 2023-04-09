@@ -2,17 +2,17 @@ locals {
   prefix = "${var.prefix}-${var.environment}"
   loadbalancer_controller_sa = {
     name                 = "aws-load-balancer-controller"
-    namespace = "kube-system"
+    namespace            = "kube-system"
     existing_policy_arns = [try(aws_iam_policy.aws_lb_controller[0].arn, null)]
   }
   argo_image_updater_sa = {
     name                 = "argocd-image-updater"
-    namespace = "argocd"
+    namespace            = "argocd"
     existing_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
   }
   cluster_autoscaler_sa = {
     name                 = "cluster-autoscaler"
-    namespace = "kube-system"
+    namespace            = "kube-system"
     existing_policy_arns = [try(aws_iam_policy.cluster_autoscaler[0].arn, null)]
   }
   service_accounts = concat(

@@ -26,4 +26,3 @@ locals {
     { "nodegroup" = local.name },
   var.labels)
 }
-

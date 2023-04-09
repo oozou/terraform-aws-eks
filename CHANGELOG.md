@@ -2,6 +2,26 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.16] - 2022-04-10
+
+Here we would have the update steps for 1.0.16 for people to follow.
+
+### Added
+
+- Support map iam user directly with aws-auth configmap
+
+### Changed
+
+- Update to support additional worker iam instance profile policy
+
+## [1.0.15] - 2023-03-23
+
+Here we would have the update steps for 1.0.15 for people to follow.
+
+### Fixed
+
+- worker node group name is too long
+
 ## [1.0.14] - 2022-09-29
 
 Here we would have the update steps for 1.0.14 for people to follow.

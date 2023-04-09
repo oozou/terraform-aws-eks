@@ -11,4 +11,3 @@ resource "aws_secretsmanager_secret_version" "terraform_key" {
     aws_secret_access_key = var.aws_account.secret_key
   })
 }
-

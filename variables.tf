@@ -209,4 +209,3 @@ variable "additional_worker_polices" {
   type        = list(string)
   default     = []
 }
-

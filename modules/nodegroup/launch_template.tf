@@ -1,7 +1,6 @@
 module "launch_template" {
   source  = "oozou/launch-template/aws"
   version = "1.0.3"
-  # source = "git@github.com:oozou/terraform-aws-launch-template.git?ref=chore/support-new-eks"
 
   count                                  = var.is_create_launch_template ? 1 : 0
   prefix                                 = var.prefix

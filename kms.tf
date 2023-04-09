@@ -1,5 +1,5 @@
 module "eks_kms" {
-  count = var.is_enabled_cluster_encryption ? 1 : 0
+  count   = var.is_enabled_cluster_encryption ? 1 : 0
   source  = "oozou/kms-key/aws"
   version = "1.0.0"
 
