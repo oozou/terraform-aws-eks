@@ -39,6 +39,14 @@ EOT
       username: eks-readonly-${i}
 %{endfor~}
 EOT
+    admin_iam_arns        = <<EOT
+%{for i, arn in var.admin_iam_arns~}
+    - userarn: ${arn}
+      username: eks-iam-admin-${i}
+      groups:
+        - system:masters
+%{endfor~}
+EOT
     admin_role_binding    = <<EOT
 %{for i, arn in var.admin_role_arns~}
 ---
@@ -88,14 +96,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: view
-%{endfor~}
-EOT
-    admin_iam_arns        = <<EOT
-%{for i, arn in var.admin_iam_arns~}
-    - userarn: ${arn}
-      username: eks-iam-admin-${i}
-      groups:
-        - system:masters
 %{endfor~}
 EOT
   }
