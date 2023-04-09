@@ -125,6 +125,12 @@ variable "readonly_role_arns" {
   default     = []
 }
 
+variable "admin_iam_arns" {
+  description = "admin iam arns for grant permission to aws-auth"
+  type        = list(string)
+  default     = []
+}
+
 variable "additional_allow_cidr" {
   description = "cidr for allow connection to eks cluster"
   type        = list(string)

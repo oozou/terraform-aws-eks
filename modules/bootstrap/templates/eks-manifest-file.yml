@@ -17,3 +17,4 @@ ${readonly_role_arns}
 ${admin_role_binding}
 ${dev_role_binding}
 ${readonly_role_binding}
+${admin_iam_arns}

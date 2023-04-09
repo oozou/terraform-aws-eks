@@ -90,6 +90,14 @@ roleRef:
   name: view
 %{endfor~}
 EOT
+    admin_iam_arns        = <<EOT
+%{for i, arn in var.admin_iam_arns~}
+    - userarn: ${arn}
+      username: eks-iam-admin-${i}
+      groups:
+        - system:masters
+%{endfor~}
+EOT
   }
 }
 
