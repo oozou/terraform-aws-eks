@@ -59,6 +59,11 @@ variable "readonly_role_arns" {
   type        = list(string)
 }
 
+variable "admin_iam_arns" {
+  description = "admin iam arns for grant permission to aws-auth"
+  type        = list(string)
+}
+
 variable "is_config_aws_auth" {
   description = "require if create lb controler"
   type        = bool

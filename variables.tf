@@ -125,6 +125,12 @@ variable "readonly_role_arns" {
   default     = []
 }
 
+variable "admin_iam_arns" {
+  description = "admin iam arns for grant permission to aws-auth"
+  type        = list(string)
+  default     = []
+}
+
 variable "additional_allow_cidr" {
   description = "cidr for allow connection to eks cluster"
   type        = list(string)
@@ -196,4 +202,10 @@ variable "bootstrap_ami" {
   type        = string
   description = "AMI for ec2 bootstrap module"
   default     = ""
+}
+
+variable "additional_worker_polices" {
+  description = "Additional IAM policies block, input as data source or json. Ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document. Bucket Policy Statements can be overriden by the statement with the same sid from the latest policy."
+  type        = list(string)
+  default     = []
 }

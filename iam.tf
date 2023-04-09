@@ -76,3 +76,19 @@ resource "aws_iam_role_policy_attachment" "amazon_ec2_ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role       = aws_iam_role.node_group_role.name
 }
+
+# Additional policies
+data "aws_iam_policy_document" "combined_policy" {
+  source_policy_documents = var.additional_worker_polices
+}
+
+resource "aws_iam_policy" "combined_policy" {
+  name        = "${local.prefix}-node-group-additional-policy"
+  description = "${local.prefix} custom policy"
+  policy      = data.aws_iam_policy_document.combined_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_combine_policy" {
+  policy_arn = aws_iam_policy.combined_policy.arn
+  role       = aws_iam_role.node_group_role.name
+}

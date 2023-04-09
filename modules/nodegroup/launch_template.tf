@@ -1,6 +1,7 @@
 module "launch_template" {
   source  = "oozou/launch-template/aws"
-  version = "1.0.0"
+  version = "1.0.3"
+
   count                                  = var.is_create_launch_template ? 1 : 0
   prefix                                 = var.prefix
   environment                            = var.environment
