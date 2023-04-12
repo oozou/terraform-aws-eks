@@ -14,5 +14,3 @@ API_SERVER_URL=${cluster_endpoint}
 
 ${post_bootstrap_user_data ~}
 %{ endif ~}
-
-
