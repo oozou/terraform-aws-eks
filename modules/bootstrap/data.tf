@@ -17,29 +17,38 @@ data "aws_ami" "ubuntu" {
 data "template_file" "eks_manifest" {
   template = file("${path.module}/templates/eks-manifest-file.yml")
   vars = {
-    node_group_role_arn   = var.node_group_role_arn
-    admin_role_arns       = <<EOT
+    node_group_role_arn      = var.node_group_role_arn
+    karpenter_node_role_arns = <<EOT
+%{for i, arn in var.karpenter_node_role_arns~}
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: ${arn}
+      username: system:node:{{EC2PrivateDNSName}}
+%{endfor~}
+EOT
+    admin_role_arns          = <<EOT
 %{for i, arn in var.admin_role_arns~}
     - groups: []
       rolearn: ${arn}
       username: eks-admin-${i}
 %{endfor~}
 EOT
-    dev_role_arns         = <<EOT
+    dev_role_arns            = <<EOT
 %{for i, arn in var.dev_role_arns~}
     - groups: []
       rolearn: ${arn}
       username: eks-developer-${i}
 %{endfor~}
 EOT
-    readonly_role_arns    = <<EOT
+    readonly_role_arns       = <<EOT
 %{for i, arn in var.readonly_role_arns~}
     - groups: []
       rolearn: ${arn}
       username: eks-readonly-${i}
 %{endfor~}
 EOT
-    admin_iam_arns        = <<EOT
+    admin_iam_arns           = <<EOT
 %{for i, arn in var.admin_iam_arns~}
     - userarn: ${arn}
       username: eks-iam-admin-${i}
@@ -47,7 +56,7 @@ EOT
         - system:masters
 %{endfor~}
 EOT
-    admin_role_binding    = <<EOT
+    admin_role_binding       = <<EOT
 %{for i, arn in var.admin_role_arns~}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -64,7 +73,7 @@ roleRef:
   name: cluster-admin
 %{endfor~}
 EOT
-    dev_role_binding      = <<EOT
+    dev_role_binding         = <<EOT
 %{for i, arn in var.dev_role_arns~}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -81,7 +90,7 @@ roleRef:
   name: edit
 %{endfor~}
 EOT
-    readonly_role_binding = <<EOT
+    readonly_role_binding    = <<EOT
 %{for i, arn in var.readonly_role_arns~}
 ---
 apiVersion: rbac.authorization.k8s.io/v1

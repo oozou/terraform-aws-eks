@@ -11,6 +11,7 @@ data:
       - system:nodes
       rolearn: ${node_group_role_arn}
       username: system:node:{{EC2PrivateDNSName}}
+${karpenter_node_role_arns}
 ${admin_role_arns}
 ${dev_role_arns}
 ${readonly_role_arns}
