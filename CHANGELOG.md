@@ -2,6 +2,14 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.0.17] - 2022-04-17
+
+Here we would have the update steps for 1.0.17 for people to follow.
+
+### Added
+
+- `karpenter_node_role_arns` var to support adding new node that manage by karpenter
+
 ## [1.0.16] - 2022-04-10
 
 Here we would have the update steps for 1.0.16 for people to follow.
