@@ -44,6 +44,12 @@ variable "node_group_role_arn" {
   type        = string
 }
 
+variable "karpenter_node_role_arns" {
+  description = "Karpenter node role arns for grant permission to aws-auth"
+  type        = list(string)
+  default     = []
+}
+
 variable "admin_role_arns" {
   description = "admin role arns for grant permission to aws-auth"
   type        = list(string)
