@@ -27,6 +27,9 @@ resource "aws_eks_cluster" "this" {
     },
     local.tags
   )
+  tags_all = {
+    tags_all = true
+  }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
   depends_on = [
