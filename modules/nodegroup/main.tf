@@ -31,6 +31,10 @@ resource "aws_eks_node_group" "this" {
       "Name" = local.name
     },
     var.tags
+    ,
+    {
+      propagate = "demo-tagging"
+    }
   )
 
   dynamic "taint" {
