@@ -6,7 +6,10 @@ resource "aws_security_group" "cluster" {
     {
       "Name" = "${local.prefix}-eks-cluster-sg"
     },
-    local.tags
+    local.tags,
+    {
+      propagate = "demo-tagging"
+    }
   )
 }
 
