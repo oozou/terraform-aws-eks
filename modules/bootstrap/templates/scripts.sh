@@ -49,5 +49,5 @@ sudo AWS_ACCESS_KEY_ID=$aws_access_key_id AWS_SECRET_ACCESS_KEY=$aws_secret_acce
 echo "/* -------------------------------------------------------------------------- */"
 echo "/*                              set env daemonset                             */"
 echo "/* -------------------------------------------------------------------------- */"
-kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+sudo AWS_ACCESS_KEY_ID=$aws_access_key_id AWS_SECRET_ACCESS_KEY=$aws_secret_access_key kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
 sudo shutdown -h now
