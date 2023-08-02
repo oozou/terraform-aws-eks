@@ -108,19 +108,19 @@ additional_cluster_role_binding = [
     subjects = [
       {
         kind     = "User"
-        name     = "manual-kbank-dev-dafund-cicd-role"
+        name     = "role"
         apiGroup = "rbac.authorization.k8s.io"
       },
       {
         kind     = "User"
-        name     = "manual-kbank-dev-dafund-cicd-role-x"
+        name     = "role-x"
         apiGroup = "rbac.authorization.k8s.io"
       }
     ]
     roleRef = {
       apiGroup = "rbac.authorization.k8s.iox"
       kind     = "ClusterRole"
-      name     = "manual-kbank-dev-dafund-cicd-clusterrole"
+      name     = "devops-clusterrole"
     }
   }
 ]
