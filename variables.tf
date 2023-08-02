@@ -190,6 +190,20 @@ EOL
   default     = []
 }
 
+variable "additional_map_roles" {
+  description = <<EOL
+Additional role to map ex.
+additional_map_roles = [
+  {
+    role_arn = arn:aws:iam::502734123891:role/cicd-role
+    username = dev-cicd-role
+  }
+]
+EOL
+  type        = any
+  default     = []
+}
+
 variable "admin_iam_arns" {
   description = "admin iam arns for grant permission to aws-auth"
   type        = list(string)

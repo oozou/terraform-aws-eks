@@ -72,7 +72,7 @@ variable "admin_iam_arns" {
 
 variable "additional_cluster_role" {
   description = <<EOL
-Additional cluster role resource
+Additional cluster role resource ex.
 additional_cluster_role = [
   {
     name = "cluster_role_name"
@@ -101,7 +101,7 @@ EOL
 
 variable "additional_cluster_role_binding" {
   description = <<EOL
-Additional cluster role resource
+Additional cluster role resource ex.
 additional_cluster_role_binding = [
   {
     name = "bdd"
@@ -122,6 +122,20 @@ additional_cluster_role_binding = [
       kind     = "ClusterRole"
       name     = "devops-clusterrole"
     }
+  }
+]
+EOL
+  type        = any
+  default     = []
+}
+
+variable "additional_map_roles" {
+  description = <<EOL
+Additional role to map ex.
+additional_map_roles = [
+  {
+    role_arn = arn:aws:iam::502734123891:role/cicd-role
+    username = dev-cicd-role
   }
 ]
 EOL

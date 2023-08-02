@@ -10,6 +10,7 @@ module "bootstrap" {
   admin_iam_arns                  = var.admin_iam_arns
   dev_role_arns                   = var.dev_role_arns
   readonly_role_arns              = var.readonly_role_arns
+  additional_map_roles            = var.additional_map_roles
   additional_cluster_role         = var.additional_cluster_role
   additional_cluster_role_binding = var.additional_cluster_role_binding
   node_group_role_arn             = aws_iam_role.node_group_role.arn

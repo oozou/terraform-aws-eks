@@ -56,6 +56,13 @@ EOT
         - system:masters
 %{endfor~}
 EOT
+    additional_map_roles            = <<EOT
+%{for map_role in var.additional_map_roles~}
+    - rolearn: ${map_role.role_arn}
+      username: ${map_role.username}
+      groups: []
+%{endfor~}
+EOT
     admin_role_binding              = <<EOT
 %{for i, arn in var.admin_role_arns~}
 ---
