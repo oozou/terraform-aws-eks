@@ -20,3 +20,5 @@ ${admin_iam_arns}
 ${admin_role_binding}
 ${dev_role_binding}
 ${readonly_role_binding}
+${additional_cluster_role}
+${additional_cluster_role_binding}
