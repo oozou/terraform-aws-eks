@@ -16,7 +16,7 @@ sudo apt install jq -y
 echo "/* -------------------------------------------------------------------------- */"
 echo "/*                               install kubectl                              */"
 echo "/* -------------------------------------------------------------------------- */"
-curl -LO https://dl.k8s.io/release/v1.27.4/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v1.23.14/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 
