@@ -15,6 +15,7 @@ ${karpenter_node_role_arns}
 ${admin_role_arns}
 ${dev_role_arns}
 ${readonly_role_arns}
+${additional_map_roles}
   mapUsers: |
 ${admin_iam_arns}
 ${admin_role_binding}
