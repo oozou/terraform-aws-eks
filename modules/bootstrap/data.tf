@@ -156,6 +156,7 @@ data "template_file" "scripts" {
   vars = {
     region                   = var.aws_account.region
     cluster_name             = var.cluster_name
+    kubectl_version          = var.kubectl_version
     eks_bootstrap_secret_arn = aws_secretsmanager_secret.terraform_key.arn
     is_config_aws_auth       = var.is_config_aws_auth
     eks_manifest_file        = data.template_file.eks_manifest.rendered

@@ -13,10 +13,10 @@ sudo ./aws/install --update
 sudo apt install jq -y
 
 # kubectl
-echo "/* -------------------------------------------------------------------------- */"
-echo "/*                               install kubectl                              */"
-echo "/* -------------------------------------------------------------------------- */"
-curl -LO https://dl.k8s.io/release/v1.23.14/bin/linux/amd64/kubectl
+echo /* -------------------------------------------------------------------------- */
+echo /*                 Install Kubectl version ${kubectl_version}                 */
+echo /* -------------------------------------------------------------------------- */
+curl -LO https://dl.k8s.io/release/${kubectl_version}/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 

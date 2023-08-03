@@ -143,6 +143,12 @@ EOL
   default     = []
 }
 
+variable "kubectl_version" {
+  description = "Kubectl version that will be used in bootstrap"
+  type        = string
+  default     = "v1.23.14"
+}
+
 variable "is_config_aws_auth" {
   description = "require if create lb controler"
   type        = bool
