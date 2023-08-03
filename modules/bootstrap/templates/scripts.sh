@@ -4,7 +4,7 @@ echo "/* -----------------------------------------------------------------------
 echo "/*                         starting cloud init script                         */"
 echo "/* -------------------------------------------------------------------------- */"
 sudo su
-curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg --yes
 sudo apt-get update
 sudo apt install unzip
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
