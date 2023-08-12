@@ -16,8 +16,6 @@ All notable changes to this module will be documented in this file.
 - Fix bootstrap script failed `modules/bootstrap/templates/scripts.sh`
 - Constraint on tls provider version `version = ">= 3.2.1"`
 
-### Removed
-
 ## [1.0.17] - 2022-04-17
 
 Here we would have the update steps for 1.0.17 for people to follow.
