@@ -2,6 +2,22 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.0] - 2023-08-12
+
+### Added
+
+- Support additional worker node policies with variable `additional_worker_polices`
+- Support bootstrap to config map role, clusterrole, clusterrole binding
+  - variables: `additional_cluster_role`, `additional_cluster_role_binding`, `additional_map_roles` (sub-module, main)
+- Option to select kubectl version in worker node
+
+### Changed
+
+- Fix bootstrap script failed `modules/bootstrap/templates/scripts.sh`
+- Constraint on tls provider version `version = ">= 3.2.1"`
+
+### Removed
+
 ## [1.0.17] - 2022-04-17
 
 Here we would have the update steps for 1.0.17 for people to follow.
