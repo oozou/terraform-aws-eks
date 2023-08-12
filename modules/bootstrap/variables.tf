@@ -70,6 +70,85 @@ variable "admin_iam_arns" {
   type        = list(string)
 }
 
+variable "additional_cluster_role" {
+  description = <<EOL
+Additional cluster role resource ex.
+additional_cluster_role = [
+  {
+    name = "cluster_role_name"
+    rules = [
+      { # Workloads
+        apiGroups = ["*"]
+        resources = ["pods", "deployments", "replicasets"]
+        verbs     = ["get", "list", "watch", "create", "update", "delete", "patch"]
+      },
+      { # Config
+        apiGroups = ["*"]
+        resources = ["configmaps", "secrets", "horizontalpodautoscalers"]
+        verbs     = ["get", "list", "watch", "create", "update", "delete", "patch"]
+      },
+      { # Network
+        apiGroups = ["*"]
+        resources = ["services", "ingresses"]
+        verbs     = ["get", "list", "watch", "create", "update", "delete", "patch"]
+    ]
+  }
+]
+EOL
+  type        = any
+  default     = []
+}
+
+variable "additional_cluster_role_binding" {
+  description = <<EOL
+Additional cluster role resource ex.
+additional_cluster_role_binding = [
+  {
+    name = "bdd"
+    subjects = [
+      {
+        kind     = "User"
+        name     = "role"
+        apiGroup = "rbac.authorization.k8s.io"
+      },
+      {
+        kind     = "User"
+        name     = "role-x"
+        apiGroup = "rbac.authorization.k8s.io"
+      }
+    ]
+    roleRef = {
+      apiGroup = "rbac.authorization.k8s.iox"
+      kind     = "ClusterRole"
+      name     = "devops-clusterrole"
+    }
+  }
+]
+EOL
+  type        = any
+  default     = []
+}
+
+variable "additional_map_roles" {
+  description = <<EOL
+Additional role to map ex.
+additional_map_roles = [
+  {
+    role_arn = arn:aws:iam::502734123891:role/cicd-role
+    username = dev-cicd-role
+  }
+]
+EOL
+  type        = any
+  default     = []
+}
+
+variable "kubectl_version" {
+  description = "Kubectl version that will be used in bootstrap"
+  type        = string
+  default     = "v1.23.14"
+}
+
 variable "is_config_aws_auth" {
   description = "require if create lb controler"
   type        = bool

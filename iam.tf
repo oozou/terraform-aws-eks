@@ -79,16 +79,19 @@ resource "aws_iam_role_policy_attachment" "amazon_ec2_ssm" {
 
 # Additional policies
 data "aws_iam_policy_document" "combined_policy" {
+  count                   = length(var.additional_worker_polices) > 0 ? 1 : 0
   source_policy_documents = var.additional_worker_polices
 }
 
 resource "aws_iam_policy" "combined_policy" {
+  count       = length(var.additional_worker_polices) > 0 ? 1 : 0
   name        = "${local.prefix}-node-group-additional-policy"
   description = "${local.prefix} custom policy"
-  policy      = data.aws_iam_policy_document.combined_policy.json
+  policy      = data.aws_iam_policy_document.combined_policy[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_combine_policy" {
-  policy_arn = aws_iam_policy.combined_policy.arn
+  count      = length(var.additional_worker_polices) > 0 ? 1 : 0
+  policy_arn = aws_iam_policy.combined_policy[0].arn
   role       = aws_iam_role.node_group_role.name
 }
