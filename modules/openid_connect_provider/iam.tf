@@ -261,14 +261,14 @@ data "aws_iam_policy_document" "aws_sa_assume_role_policy" {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "${replace(aws_iam_openid_connect_provider.this.url, "https://", "")}:sub"
       values = [
         format("system:serviceaccount:%s:%s", local.service_accounts[count.index].namespace, local.service_accounts[count.index].name)
       ]
     }
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "${replace(aws_iam_openid_connect_provider.this.url, "https://", "")}:aud"
       values = [
         "sts.amazonaws.com"
