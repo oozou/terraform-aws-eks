@@ -2,6 +2,16 @@
 
 All notable changes to this module will be documented in this file.
 
+## [1.1.1] - 2024-01-26
+
+### Added
+
+- Default policy for worker node's role allowing efs addon to work
+
+### Changed
+
+- Update `data.aws_iam_policy_document.aws_sa_assume_role_policy`'s condition to use `StringLike` instead of `StringEquals`
+
 ## [1.1.0] - 2023-08-12
 
 ### Added
