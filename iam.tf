@@ -77,6 +77,11 @@ resource "aws_iam_role_policy_attachment" "amazon_ec2_ssm" {
   role       = aws_iam_role.node_group_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "amazon_efs_csi" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+  role       = aws_iam_role.node_group_role.name
+}
+
 # Additional policies
 data "aws_iam_policy_document" "combined_policy" {
   count                   = length(var.additional_worker_polices) > 0 ? 1 : 0
